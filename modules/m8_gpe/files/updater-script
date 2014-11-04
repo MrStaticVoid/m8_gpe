@@ -17,7 +17,7 @@ run_program("/tmp/tools/fsck.ext4", "-fy", "/dev/block/platform/msm_sdcc.1/by-na
 
 ui_print("- Installing SuperSU");
 package_extract_dir("supersu", "/tmp/supersu");
-set_perm_recursive(0, 0, 0755, 0755, "/tmp/supersu");
+set_perm(0, 0, 0755, "/tmp/supersu/installer");
 run_program("/tmp/supersu/installer", "", "../../../dev/null", "/tmp/supersu/supersu.zip");
 
 run_program("/sbin/mount", "/system");
