@@ -1,13 +1,18 @@
 class m8_gpe::build {
     $dir = "${m8_gpe::target}/build"
 
+    m8_gpe::source { 'cm':
+        source => 'https://thestaticvoid.com/dist/m8_gpe/sources/cm-11-20141008-SNAPSHOT-M11-m8.zip',
+        type   => zip,
+    }
+
     m8_gpe::source { 'digitalhigh':
-        source => 'https://thestaticvoid.com/dist/m8_gpe/GPE_M8VZW_080714_DH.zip',
+        source => 'https://thestaticvoid.com/dist/m8_gpe/sources/GPE_M8VZW_080714_DH.zip',
         type   => zip,
     }
 
     m8_gpe::source { 'supersu':
-        source => 'https://thestaticvoid.com/dist/m8_gpe/UPDATE-SuperSU-v2.16.zip',
+        source => 'https://thestaticvoid.com/dist/m8_gpe/sources/UPDATE-SuperSU-v2.16.zip',
         type   => zip,
     }
 
@@ -17,7 +22,7 @@ class m8_gpe::build {
 
     # This is from http://michael.gorven.za.net/blog/2013/11/25/statically-linked-e2fsprogs-binaries-android
     m8_gpe::source { 'e2fsprogs':
-        source => 'https://thestaticvoid.com/dist/m8_gpe/e2fsprogs-android-static-1.42.8-main.tar.xz',
+        source => 'https://thestaticvoid.com/dist/m8_gpe/sources/e2fsprogs-android-static-1.42.8-main.tar.xz',
         type   => tar,
     }
 
@@ -37,9 +42,9 @@ class m8_gpe::build {
     }
 
     file { "${dir}/META-INF/com/google/android/update-binary":
-        source  => "${m8_gpe::target}/digitalhigh/META-INF/com/google/android/update-binary",
+        source  => "${m8_gpe::target}/cm/META-INF/com/google/android/update-binary",
         mode    => '0755',
-        require => M8_gpe::Source['digitalhigh'],
+        require => M8_gpe::Source['cm'],
     }
 
     file { "${dir}/META-INF/com/google/android/updater-script":
@@ -73,7 +78,7 @@ class m8_gpe::build {
 
     file { "${dir}/apps/Torch.apk":
         source  => "${m8_gpe::target}/digitalhigh/system/app/Torch.apk",
-        require => M8_gpe::Source['cm'],
+        require => M8_gpe::Source['digitalhigh'],
     }
 
     file { "${dir}/supersu/installer":

@@ -17,6 +17,7 @@ define m8_gpe::source (
 
     exec { "fetch-${name}":
         command => $fetch_command,
+        timeout => 0,
         creates => $dest,
     }
 
