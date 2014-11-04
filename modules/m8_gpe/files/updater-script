@@ -1,0 +1,40 @@
+assert(getprop("ro.product.device") == "m8wl");
+
+ui_print("- Extracting tools");
+package_extract_dir("tools", "/tmp/tools");
+set_perm_recursive(0, 0, 0755, 0755, "/tmp/tools");
+
+ui_print("- Writing boot.img");
+package_extract_file("boot.img", "/dev/block/platform/msm_sdcc.1/by-name/boot");
+
+ui_print("- Writing system.img");
+package_extract_file("system.img", "/dev/block/platform/msm_sdcc.1/by-name/system");
+
+ui_print("- Growing system.img to fill partition");
+run_program("/tmp/tools/fsck.ext4", "-fy", "/dev/block/platform/msm_sdcc.1/by-name/system");
+run_program("/tmp/tools/resize2fs", "/dev/block/platform/msm_sdcc.1/by-name/system");
+run_program("/tmp/tools/fsck.ext4", "-fy", "/dev/block/platform/msm_sdcc.1/by-name/system");
+
+ui_print("- Installing SuperSU");
+package_extract_dir("supersu", "/tmp/supersu");
+set_perm_recursive(0, 0, 0755, 0755, "/tmp/supersu");
+run_program("/tmp/supersu/installer", "", "../../../dev/null", "/tmp/supersu/supersu.zip");
+
+run_program("/sbin/mount", "/system");
+
+ui_print("- Installing Busybox");
+run_program("/sbin/cp", "/tmp/tools/busybox", "/system/xbin/busybox");
+set_perm(0, 0, 0755, "/system/xbin/busybox");
+run_program("/system/xbin/busybox", "--install", "/system/xbin");
+
+ui_print("- Installing Torch");
+package_extract_file("init.extra", "/system/etc/install-recovery-2.sh");
+set_perm(0, 0, 0755, "/system/etc/install-recovery-2.sh"); 
+package_extract_file("apps/Torch.apk", "/system/app/Torch.apk");
+set_perm(0, 0, 0644, "/system/app/Torch.apk"); 
+
+ui_print("- Configuring for Verizon");
+package_extract_file("build.prop.extra", "/tmp/build.prop.extra");
+run_program("/sbin/sh", "-c", "cat /tmp/build.prop.extra >> /system/build.prop");
+
+unmount("/system");

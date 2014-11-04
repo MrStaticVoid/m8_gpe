@@ -1,0 +1,4 @@
+#!/system/bin/sh
+
+# Enable Torch
+/system/bin/chmod 666 /sys/class/leds/flashlight/brightness
