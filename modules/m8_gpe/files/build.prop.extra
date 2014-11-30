@@ -10,7 +10,7 @@ gsm.sim.operator.numeric=310012
 gsm.operator.numeric=310012
 ro.cdma.home.operator.alpha=Verizon
 gsm.sim.operator.alpha=Verizon
-gsm.operator.alphaVerizon
+gsm.operator.alpha=Verizon
 telephony.lteOnCdmaDevice=1
 ro.cdma.subscribe_on_ruim_ready=true
 ro.ril.svdo=true
