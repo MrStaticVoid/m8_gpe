@@ -48,5 +48,6 @@ ro.ril.def.agps.mode=6
 # Google's libril.  This setting seems to be a common workaround.
 #
 # See: http://seasonofcode.com/posts/carrier-programming-on-cdma-android-phones.html
+# See: https://census.tsyrklevich.net/system_properties/ro.cdma.homesystem
 #
-ro.cdma.homesystem=64,65,76,77,78,79,80,81,82,83
+ro.cdma.homesystem=64,65,66,67,69,71,72,74,76,77,78,79,80,81,82,83
