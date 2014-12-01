@@ -9,7 +9,7 @@ class m8_gpe::mkbootimg {
     }
 
     exec { 'make-mkbootimg':
-        command => '/usr/bin/make',
+        command => '/usr/bin/make CFLAGS="-Werror=unused-result"',
         cwd     => $source_dir,
         creates => $mkbootimg,
         require => M8_gpe::Source['mkbootimg'],
