@@ -12,7 +12,7 @@ class m8_gpe::build {
     }
 
     m8_gpe::source { 'supersu':
-        source => 'https://thestaticvoid.com/dist/m8_gpe/sources/UPDATE-SuperSU-v2.16.zip',
+        source => 'https://thestaticvoid.com/dist/m8_gpe/sources/UPDATE-SuperSU-v2.36.zip',
         type   => zip,
     }
 
