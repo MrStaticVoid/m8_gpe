@@ -7,7 +7,7 @@ class m8_gpe::ruu {
     class { 'm8_gpe::dt': }
 
     m8_gpe::source { 'ruu':
-        source => 'https://thestaticvoid.com/dist/m8_gpe/sources/RUU-HTC_One_M8_GPE_4.4.4-2.12.1700.1.zip',
+        source => 'https://thestaticvoid.com/dist/m8_gpe/sources/RUU-HTC_One_M8_GPE_5.0.1-3.11.1700.5.zip',
         type   => zip,
     }
 

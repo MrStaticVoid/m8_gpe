@@ -6,13 +6,8 @@ class m8_gpe::build {
         type   => zip,
     }
 
-    m8_gpe::source { 'digitalhigh':
-        source => 'https://thestaticvoid.com/dist/m8_gpe/sources/GPE_M8VZW_080714_DH.zip',
-        type   => zip,
-    }
-
     m8_gpe::source { 'supersu':
-        source => 'https://thestaticvoid.com/dist/m8_gpe/sources/UPDATE-SuperSU-v2.36.zip',
+        source => 'https://thestaticvoid.com/dist/m8_gpe/sources/UPDATE-SuperSU-v2.37.zip',
         type   => zip,
     }
 
@@ -27,6 +22,7 @@ class m8_gpe::build {
     }
 
     class { 'm8_gpe::ruu': }
+    class { 'm8_gpe::sqlite': }
 
     file { [
         $dir,
@@ -35,7 +31,6 @@ class m8_gpe::build {
         "${dir}/META-INF/com/google",
         "${dir}/META-INF/com/google/android",
         "${dir}/tools",
-        "${dir}/apps",
         "${dir}/supersu",
     ]:
         ensure => directory,
@@ -67,7 +62,7 @@ class m8_gpe::build {
     }
 
     file { "${dir}/tools/fsck.ext4":
-        source  => "${m8_gpe::target}/e2fsprogs/resize2fs",
+        source  => "${m8_gpe::target}/e2fsprogs/fsck.ext4",
         require => M8_gpe::Source['e2fsprogs'],
     }
 
@@ -76,9 +71,9 @@ class m8_gpe::build {
         require => M8_gpe::Source['busybox'],
     }
 
-    file { "${dir}/apps/Torch.apk":
-        source  => "${m8_gpe::target}/digitalhigh/system/app/Torch.apk",
-        require => M8_gpe::Source['digitalhigh'],
+    file { "${dir}/tools/sqlite3":
+        source  => $m8_gpe::sqlite::binary,
+        require => M8_gpe::Source['sqlite'],
     }
 
     file { "${dir}/supersu/installer":
@@ -95,7 +90,10 @@ class m8_gpe::build {
         source => 'puppet:///modules/m8_gpe/build.prop.extra',
     }
 
-    file { "${dir}/init.extra":
-        source => 'puppet:///modules/m8_gpe/init.extra',
+    file { "${dir}/init.d":
+        ensure  => directory,
+        source  => 'puppet:///modules/m8_gpe/init.d',
+        recurse => true,
+        purge   => true,
     }
 }

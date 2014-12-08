@@ -1,0 +1,18 @@
+#!/system/bin/sh
+
+# sqlite3 dies if it can't determine the home directory
+HOME=/
+export HOME
+
+#
+# We don't need to check if this is already configured.  A constraint
+# ensures this fails if it is already set.
+#
+sqlite3 /data/data/com.google.android.gsf/databases/gservices.db 2>/dev/null <<END
+INSERT INTO overrides (name, value) VALUES ('gms:cast:remote_display_enabled', 'true');
+END
+
+# Force the setting to take effect now (only if necessary)
+if [ $? -eq 0 ]; then
+    am force-stop com.google.android.gms
+fi

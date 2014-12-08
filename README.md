@@ -22,9 +22,8 @@ and the result should be a file called `m8_gpe.zip` that can be flashed
 with a recovery tool like TWRP.
 
 ## Concessions ##
-Generally, I would prefer an untouched build, but in this case, the
-Torch.apk from the "DigitalHigh" ROM, which is itself modified from
-CyanogenMod, works so well, I've included it in this build.  And since
-I had to modify the image for that app, I might as well have included
-root and busybox support too.  This is done in the least obtrusive,
-most transparent way possible.
+Generally, I would prefer an untouched build, but I always end up adding
+root and busybox anyway, so I build them in.  This is done in the least
+obtrusive, most transparent way possible.  Enabling root access seems to
+disable the screen casting support, so a startup script is added to the
+build to set an override flag in the settings database.

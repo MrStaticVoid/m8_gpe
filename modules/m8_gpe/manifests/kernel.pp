@@ -2,7 +2,7 @@ class m8_gpe::kernel {
     $source_dir = "${m8_gpe::target}/kernel"
 
     m8_gpe::source { 'kernel':
-        source => 'https://github.com/MrStaticVoid/android_kernel_htc_msm8974.git',
+        source => 'https://github.com/MrStaticVoid/kernel_m8.git',
         type   => git,
     }
 

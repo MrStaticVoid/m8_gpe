@@ -1,5 +1,3 @@
-assert(getprop("ro.product.device") == "m8wl");
-
 ui_print("- Extracting tools");
 package_extract_dir("tools", "/tmp/tools");
 set_perm_recursive(0, 0, 0755, 0755, "/tmp/tools");
@@ -27,14 +25,18 @@ run_program("/sbin/cp", "/tmp/tools/busybox", "/system/xbin/busybox");
 set_perm(0, 0, 0755, "/system/xbin/busybox");
 run_program("/system/xbin/busybox", "--install", "/system/xbin");
 
-ui_print("- Installing Torch");
-package_extract_file("init.extra", "/system/etc/install-recovery-2.sh");
-set_perm(0, 0, 0755, "/system/etc/install-recovery-2.sh"); 
-package_extract_file("apps/Torch.apk", "/system/app/Torch.apk");
-set_perm(0, 0, 0644, "/system/app/Torch.apk"); 
-
 ui_print("- Configuring for Verizon");
 package_extract_file("build.prop.extra", "/tmp/build.prop.extra");
 run_program("/sbin/sh", "-c", "cat /tmp/build.prop.extra >> /system/build.prop");
+
+# Enable CDMA modes
+run_program("/system/xbin/sed", "-i", "s/^ro.telephony.default_network=.*/ro.telephony.default_network=10/; s/^#telephony.lteOnCdmaDevice/telephony.lteOnCdmaDevice/", "/system/build.prop");
+
+run_program("/sbin/cp", "/tmp/tools/sqlite3", "/system/xbin/sqlite3");
+set_perm(0, 0, 0755, "/system/xbin/sqlite3");
+
+package_extract_dir("init.d", "/system/etc/init.d");
+set_perm_recursive(0, 0, 0755, 0755, "/system/etc/init.d");
+run_program("/sbin/sh", "-c", "echo '\n# Added by m8_gpe --jlee\nrun-parts /system/etc/init.d' >> /system/etc/usf_post_boot.sh");
 
 unmount("/system");
