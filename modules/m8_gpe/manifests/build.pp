@@ -7,7 +7,7 @@ class m8_gpe::build {
     }
 
     m8_gpe::source { 'supersu':
-        source => 'https://thestaticvoid.com/dist/m8_gpe/sources/UPDATE-SuperSU-v2.37.zip',
+        source => 'https://thestaticvoid.com/dist/m8_gpe/sources/UPDATE-SuperSU-v2.46.zip',
         type   => zip,
     }
 
@@ -21,7 +21,7 @@ class m8_gpe::build {
         type   => tar,
     }
 
-    class { 'm8_gpe::ruu': }
+    class { 'm8_gpe::boot': }
     class { 'm8_gpe::sqlite': }
 
     file { [
@@ -47,8 +47,8 @@ class m8_gpe::build {
     }
 
     file { "${dir}/boot.img":
-        source  => $m8_gpe::ruu::boot_img,
-        require => Class['m8_gpe::ruu'],
+        source  => $m8_gpe::boot::img,
+        require => Class['m8_gpe::boot'],
     }
 
     file { "${dir}/system.img":
