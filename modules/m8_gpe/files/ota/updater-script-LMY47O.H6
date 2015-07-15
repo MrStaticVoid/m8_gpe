@@ -1,0 +1,1427 @@
+
+# Htc Script Version: L50QCT.00.001.002
+
+ui_print("L50QCT.00.001.002");
+mount("ext4", "EMMC", "/dev/block/platform/msm_sdcc.1/by-name/system", "/system", "max_batch_time=0,commit=1,data=ordered,barrier=1,errors=panic,nodelalloc");
+file_getprop("/system/build.prop", "ro.build.fingerprint") == "htc/m8_google/htc_m8:5.1/LMY47O.H5/530544:user/release-keys" ||
+    file_getprop("/system/build.prop", "ro.build.fingerprint") == "htc/m8_google/htc_m8:5.1/LMY47O.H6/534182:user/release-keys" ||
+    abort("Package expects build fingerprint of htc/m8_google/htc_m8:5.1/LMY47O.H5/530544:user/release-keys or htc/m8_google/htc_m8:5.1/LMY47O.H6/534182:user/release-keys; this device has " + file_getprop("/system/build.prop", "ro.build.fingerprint") + ".");
+file_getprop("/system/build.prop", "ro.product.device") == "htc_m8" || abort("This package is for \"htc_m8\" devices; this is a \"" + file_getprop("/system/build.prop", "ro.product.device") + "\".");
+assert(file_getprop("/system/build.prop", "ro.aa.taskid") == "429772" ||
+       file_getprop("/system/build.prop", "ro.aa.taskid") == "430316");
+ifelse( is_ship_bootloader(file_getprop("/system/build.prop", "ro.bootloader")) == "t" ,
+       assert(check_cid("00000000", "11111111", "22222222", "33333333",
+       "44444444", "55555555", "66666666", "77777777", "88888888", "99999999",
+       "GOOGL001", "11111111", "CWS__001", "T-MOB010") == "t");
+       );
+ifelse( is_ship_bootloader(file_getprop("/system/build.prop", "ro.bootloader")) == "t" ,
+       assert(check_mid("full", "0P6B10000" , "0P6B12000" , "0P6B13000" ,
+       "0P6B11000" , "0P6B15000" , "0P6B16000" , "0P6B17000") == "t");,
+       assert(check_mid("simple", "0P6B10000" , "0P6B12000" , "0P6B13000" ,
+       "0P6B11000" , "0P6B15000" , "0P6B16000" , "0P6B17000") == "t");
+       );
+
+ui_print("Disabling CDMA mode for update...");
+run_program("/system/xbin/sed", "-i", "s/^ro.telephony.default_network=.*/ro.telephony.default_network=9/; s/^telephony.lteOnCdmaDevice/#telephony.lteOnCdmaDevice/", "/system/build.prop");
+
+ui_print("Verifying current system...");
+show_progress(0.100000, 0);
+apply_patch_check("/system/app/BasicDreams/BasicDreams.apk", "03aa1d4de53fb08956fe3289e76cd42c288ea2c0", "5fd90493aa44d23ba64d02d5cf31c904cbffa189") || abort("\"/system/app/BasicDreams/BasicDreams.apk\" has unexpected contents.");
+apply_patch_check("/system/app/Bluetooth/Bluetooth.apk", "bc5ba4977cf80d3cae6d6a530b7ac7bac6e2c2c1", "6acb6a50ee5567a5cd56ee87de37a96623f00351") || abort("\"/system/app/Bluetooth/Bluetooth.apk\" has unexpected contents.");
+apply_patch_check("/system/app/CIRModule/CIRModule.apk", "85345a72344549a62c096c14ff68037c2215019f", "c5e41fe8107c365cf32d547d20747fd98745e6e3") || abort("\"/system/app/CIRModule/CIRModule.apk\" has unexpected contents.");
+apply_patch_check("/system/app/Calculator/Calculator.apk", "e3dd3ff0b20f1cec54d38b5185011531d05571ae", "8167227be2ba3103a07a0f7f96527bb86c21b1ea") || abort("\"/system/app/Calculator/Calculator.apk\" has unexpected contents.");
+apply_patch_check("/system/app/CaptivePortalLogin/CaptivePortalLogin.apk", "55a0f6eb29dbccc9a4d311d4cebea557a90387bd", "74c118868751a42090ca597a90456c086dcf1cf7") || abort("\"/system/app/CaptivePortalLogin/CaptivePortalLogin.apk\" has unexpected contents.");
+apply_patch_check("/system/app/CertInstaller/CertInstaller.apk", "aff38f5380fadec91b5e98ca0f5ff2d070e372b9", "961666b7205344e722dd538b2f0f89bb716c9841") || abort("\"/system/app/CertInstaller/CertInstaller.apk\" has unexpected contents.");
+apply_patch_check("/system/app/DocumentsUI/DocumentsUI.apk", "d5c4aa880891700cf3d9ad54bb94c56073e64196", "57bc79fb9911c4efbbde3c9f45090d07618c655b") || abort("\"/system/app/DocumentsUI/DocumentsUI.apk\" has unexpected contents.");
+apply_patch_check("/system/app/DownloadProviderUi/DownloadProviderUi.apk", "bccc023bcce11b8d6e78ab8b06a31a219143f501", "ab00526ed66ed98322a2a41d556e85a114ca959c") || abort("\"/system/app/DownloadProviderUi/DownloadProviderUi.apk\" has unexpected contents.");
+apply_patch_check("/system/app/DriveActivator/DriveActivator.apk", "88d8e5d295ae5ea6e5751d8644bff88680491e73", "a0b039e763c82d9ee1805f459602dcfd24846c3d") || abort("\"/system/app/DriveActivator/DriveActivator.apk\" has unexpected contents.");
+apply_patch_check("/system/app/HTMLViewer/HTMLViewer.apk", "556c3ca9c32427ff047f39ba6c0b91b9fa3c749c", "3853c343f905a4de8be6d7da3a700d8dda7e920a") || abort("\"/system/app/HTMLViewer/HTMLViewer.apk\" has unexpected contents.");
+apply_patch_check("/system/app/KeyChain/KeyChain.apk", "acc5a165e1bc642e5cbc3da64c877a73fcada8ed", "4654bc4cd0dbde91f0542274ca48b3903dc58a2d") || abort("\"/system/app/KeyChain/KeyChain.apk\" has unexpected contents.");
+apply_patch_check("/system/app/LiveWallpapersPicker/LiveWallpapersPicker.apk", "23190a5af7bc16fcff527778338a678521597a8d", "3a92a28a3d423f2de1759fa86ef2b58633d18ca1") || abort("\"/system/app/LiveWallpapersPicker/LiveWallpapersPicker.apk\" has unexpected contents.");
+apply_patch_check("/system/app/Nfc/Nfc.apk", "40ed1e249568895b0201bc07854c9d2b5cc79a0a", "942655ca0c6511ab7f6bc876ec6164f60ebde9e7") || abort("\"/system/app/Nfc/Nfc.apk\" has unexpected contents.");
+apply_patch_check("/system/app/PacProcessor/PacProcessor.apk", "d78f74636fef5b08cf38fdbd06c75af9e33198bc", "d3ba110b706d677b04f225911ebcadbd28eb7139") || abort("\"/system/app/PacProcessor/PacProcessor.apk\" has unexpected contents.");
+apply_patch_check("/system/app/PackageInstaller/PackageInstaller.apk", "3d848da794c19406d4b045b572ba5177fe0678e8", "4e83afc8bedcfc8569381d69563b24466bcbc511") || abort("\"/system/app/PackageInstaller/PackageInstaller.apk\" has unexpected contents.");
+apply_patch_check("/system/app/PartnerBookmarksProvider/PartnerBookmarksProvider.apk", "e0c96be2f9f87e567d84d5677b29b0e81f59812b", "450f86331d34bbd19e5e62955d43cb10abb5cd5b") || abort("\"/system/app/PartnerBookmarksProvider/PartnerBookmarksProvider.apk\" has unexpected contents.");
+apply_patch_check("/system/app/PhotoTable/PhotoTable.apk", "af094551d84e7a393cdd0f0334b89ac0ec9a3234", "4b2a73e95f1a2434eb5f52f3158348ce6db3eac4") || abort("\"/system/app/PhotoTable/PhotoTable.apk\" has unexpected contents.");
+apply_patch_check("/system/app/PrintSpooler/PrintSpooler.apk", "59d24e7278dff616ae7b101f1ad461d45a100c68", "0dc25c84531fd91942140d2e16142ea4ae5b9be8") || abort("\"/system/app/PrintSpooler/PrintSpooler.apk\" has unexpected contents.");
+apply_patch_check("/system/app/Stk/Stk.apk", "4307945f6d52c60f19e1c52b2e60372f283536d6", "0a02cb1781088dac2275610658f5db09a63c6f16") || abort("\"/system/app/Stk/Stk.apk\" has unexpected contents.");
+apply_patch_check("/system/app/TimeService/TimeService.apk", "48d773f75c2c8cbadcb5e0ee350ccafc2f944963", "86d5932e043097eb976c426dab03f7d39636506e") || abort("\"/system/app/TimeService/TimeService.apk\" has unexpected contents.");
+apply_patch_check("/system/app/UserDictionaryProvider/UserDictionaryProvider.apk", "436efb807ed33019f9965eff0290f6fb544027ca", "9d93c38353f65e8712ea6fe95a646a3d9942b5db") || abort("\"/system/app/UserDictionaryProvider/UserDictionaryProvider.apk\" has unexpected contents.");
+apply_patch_check("/system/bin/asound", "5986de3aa5f44e6d5acbbb2e4a22c812dfdfa824", "00e7dbdba2a552f4a17c095095869ff07f438041") || abort("\"/system/bin/asound\" has unexpected contents.");
+apply_patch_check("/system/bin/bcc", "3866f05c8e63cc21f23ec41d92638393bb854ad1", "7ac4ba7ea8b0fd9684ff9ce28ac512cf8f143e33") || abort("\"/system/bin/bcc\" has unexpected contents.");
+apply_patch_check("/system/bin/debuggerd", "4ba828527bbef504ac6707f0615fc08d09b9061c", "d4814b70e19cf4e5099a21032161a3595a595bab") || abort("\"/system/bin/debuggerd\" has unexpected contents.");
+apply_patch_check("/system/bin/mdnsd", "fe900e6834588d0a4061431fed72446f1b315d83", "e68cd1368062e9166e43bdf2613000e37232beb1") || abort("\"/system/bin/mdnsd\" has unexpected contents.");
+apply_patch_check("/system/bin/ndc", "9211a66223dbe6b27b2a09cfbe16172f7c10e90b", "9e62cfbcebfcb707cfd4a3bf028f93489f81d508") || abort("\"/system/bin/ndc\" has unexpected contents.");
+apply_patch_check("/system/bin/netd", "496ad894a65b18f11cdb048f67c08ee23a96331a", "e256cb18ab06ff8cee3318428825bdb75ab6e521") || abort("\"/system/bin/netd\" has unexpected contents.");
+apply_patch_check("/system/build.prop", "40be5552efea2b3f425f21b2cb6835abc91b9b5c", "5d19fd80aedc1e6ca7a490d4d62dc5492112723f") || abort("\"/system/build.prop\" has unexpected contents.");
+apply_patch_check("/system/etc/recovery-resource.dat", "64bdafd0fc26240f524eea0a775512a981cc61ed", "0fd8ae2cc8e5a83a0538c1613fc07f2c69955b39") || abort("\"/system/etc/recovery-resource.dat\" has unexpected contents.");
+apply_patch_check("/system/etc/security/cwcerts.zip", "791bc09a3db8821b9de87f41690c2d2e498d840a", "f066ca829d0b08015c937514e81f5bfd2f381322") || abort("\"/system/etc/security/cwcerts.zip\" has unexpected contents.");
+apply_patch_check("/system/etc/security/otacerts.zip", "186982508108ebf8f23474ae9d15d00d28d845da", "c0c64d52c03b83515008d0d8e9e424fead39a33b") || abort("\"/system/etc/security/otacerts.zip\" has unexpected contents.");
+apply_patch_check("/system/framework/am.jar", "7ef708fa1a93dbe5647072112f12752a337a5193", "551373a9b8337277a7dc903997ed72e7a56d38cb") || abort("\"/system/framework/am.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/android.policy.jar", "4401a1f017f1ea28649a5b602c05999b7cc4cc0b", "86feacba9ed6798c3ad85cad9da69ae359a9dc75") || abort("\"/system/framework/android.policy.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/android.test.runner.jar", "00deca9d32af3a85c4d03d2666958af34fed5f26", "defd9255752ebe6c68897ef979e0aa994759e30c") || abort("\"/system/framework/android.test.runner.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/apache-xml.jar", "4f40bd7c56f0aa33d50ab85fb37232cdaf90a697", "4475661ee38a63d022ba792ecb227ac4d1ec388f") || abort("\"/system/framework/apache-xml.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/appops.jar", "815679f871ca6e5ac80efc17d84961a3319b1114", "1d58de29f7f8e36b2f0b5c03525c0fc8f17a35bb") || abort("\"/system/framework/appops.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/appwidget.jar", "566191976a7a95ec302d0bdb79a49787fd6dc978", "b8d9b382b56b01c5302b98143c2f08696033ba29") || abort("\"/system/framework/appwidget.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/bmgr.jar", "259ce8b1579721c15234fc90a1a710c969f9b57e", "6276d0cac98165bf93828f70a39e407216e1e7a1") || abort("\"/system/framework/bmgr.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/bouncycastle.jar", "0f54d08a2312411312afc66d40a49b21882361a6", "8340ea846d6e1072caa7ca9be1f7342dcba6639c") || abort("\"/system/framework/bouncycastle.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/bu.jar", "e7ae5d065765ce4d0b49553cbb96bdad5c3e4f48", "20cd3c22ee2fd1970adad77b900720e743027c4d") || abort("\"/system/framework/bu.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/com.android.future.usb.accessory.jar", "dc2686dc7aa495739606e663de3be55b9fa3c68c", "71d089301b6d7b471199380459ff5e6f3de7c953") || abort("\"/system/framework/com.android.future.usb.accessory.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/com.android.location.provider.jar", "634b131f64592fa529658ea5f3bfeed6b0c1cf4f", "17a03eeea709920cd7d87fb0caea29276501c9aa") || abort("\"/system/framework/com.android.location.provider.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/com.android.media.remotedisplay.jar", "cbb12d77802c9c2942b8425714295bc335efeb04", "4d1c87817f4c43a221eee3a9befeb33bb2fbc4fe") || abort("\"/system/framework/com.android.media.remotedisplay.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/com.android.mediadrm.signer.jar", "d7937ec8667205394f82b7d83c27f31e5c1a29ec", "619cdc07efdcaf8eb01092b74a5f4b892ab986e3") || abort("\"/system/framework/com.android.mediadrm.signer.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/com.android.nfc_extras.jar", "272dc898958b88dd9d0d0410061171ac23516b20", "785e0fb01b4389e89de97f1ab6ba9d0c7efc4612") || abort("\"/system/framework/com.android.nfc_extras.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/com.google.widevine.software.drm.jar", "a3c4883181d54a33afb24cbf292cd4d5a6378a33", "7045056dfa176cc2f8b9d23ffb919d3e6a8078cd") || abort("\"/system/framework/com.google.widevine.software.drm.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/conscrypt.jar", "8c8a3e13c675e9d1a899fa346b0f1aaeee191fa3", "d1b09a15a610b76739ee2ffeb6f370983ce74ada") || abort("\"/system/framework/conscrypt.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/content.jar", "7a65647c2aebbe469ef7b95ced7a09fc7fc565de", "bb175d08c4a87e33d88873119f21c9317bcc6ee7") || abort("\"/system/framework/content.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/core-junit.jar", "e76c31f825ea9783b1cb359a2951a1601b92b4f1", "4ea4a394c6ad5a0b1dd7b7b55a6423af1550c726") || abort("\"/system/framework/core-junit.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/core-libart.jar", "d92ac47deebb1aaaa6365b0030cd6a1a4ab4839b", "4a70a2ce64a6327f848a6db3962e7f719dd8bd2d") || abort("\"/system/framework/core-libart.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/dpm.jar", "8ac0d8923d88bc0258eda9c88ff39d84783c5b37", "93ee18fb20078794e583ed5397fb17356ab1f4b6") || abort("\"/system/framework/dpm.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/ethernet-service.jar", "0ff1b287022313830b440c81138400956cbe86dc", "37c5bbb6ad3203da0496f67a57467380cd831eeb") || abort("\"/system/framework/ethernet-service.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/ext.jar", "80495741ae0b8980184c96222a628637b34fbb3a", "b4d00ce0c4309c02382dbdc04a7e1b205e6eec78") || abort("\"/system/framework/ext.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/framework-res.apk", "e7666479fb08775436b7c7f31a9feb7a053ef4f9", "bbfb369e4d0f849540cf573fe8b490929c13981b") || abort("\"/system/framework/framework-res.apk\" has unexpected contents.");
+apply_patch_check("/system/framework/framework.jar", "a3dacebbcab3b0d3392b8d2012f5690c5c99a9eb", "1e26450ca1f42398d30be92a7763210196f962a2") || abort("\"/system/framework/framework.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/htcirlibs.jar", "0bb84d635d78b2d87a155dd2e5b38d6370ed6c96", "d9aa6e23291bc653d6167551fb2bc953071b180c") || abort("\"/system/framework/htcirlibs.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/ime.jar", "f897e1ee0341cd184d00d51a3461a6a811298123", "2f774c14aec96135907be4f182cd4f14937447a9") || abort("\"/system/framework/ime.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/ims-common.jar", "43d71b126ef5cd77b2f81b5d9d9e5f316161dc1c", "87bedad8fcde6ef0447dab5ad8a9f440a2a61bef") || abort("\"/system/framework/ims-common.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/input.jar", "5c734d288cbd48012b662dc860ec6540708cf07f", "fda73ab9ab1cbf03b5bc80bff4cf9e00e8c6e7f5") || abort("\"/system/framework/input.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/javax.obex.jar", "64552967cd5d28df2dfbda20975416bdff00629c", "962fdbeedaa241dcb7f7eb913a51e0ab67bc2043") || abort("\"/system/framework/javax.obex.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/media_cmd.jar", "9ae8667ec93c55b57a82030d4f2961ea18caa73d", "eca60cef606c9e4b4fe8929cd54faae78e7bc67b") || abort("\"/system/framework/media_cmd.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/mms-common.jar", "04096acdd17f8cde1b276e97ff812b05912b5b71", "eb61218be25ca7b75ebb32f583e2454055553d1d") || abort("\"/system/framework/mms-common.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/monkey.jar", "6858cae16f778721ee154bedd9f01c784ad99efc", "34b370a56a73474d93ae6d09e3316fd28b664bd7") || abort("\"/system/framework/monkey.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/okhttp.jar", "3451965becb3c807dc1671b709b7de1f90fd2ed2", "9b328435bac9f2cf9671f7cf951beeb23b911fe5") || abort("\"/system/framework/okhttp.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/pm.jar", "fd4a996367c6d7073f04f0f9371b73f92290c974", "4491d4816ab3896705f464eda5804a7f7e440d2d") || abort("\"/system/framework/pm.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/requestsync.jar", "f564830ee154d27f89379d22e995933d7eab6411", "b8749eba28f30c5dd89a37ae6fd363448b5d1eae") || abort("\"/system/framework/requestsync.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/settings.jar", "320a1eede250bd8a92af42f65b4997bbd1ea0fc0", "f5b637a4d8c771e6147a6979720e8c144a84e8e2") || abort("\"/system/framework/settings.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/svc.jar", "156105a64764afa965207e4fecdb8a3ed4a11205", "21f75507153e91ee0ed9ec80c230367462fb3586") || abort("\"/system/framework/svc.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/telephony-common.jar", "287e4a51097f8fd5dcac1d43b05d89838e2e75ea", "224be3ca7130663048f5f149e3748cec918132a1") || abort("\"/system/framework/telephony-common.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/uiautomator.jar", "af97402f601da378faa8f5af9ec3ad56fcd765d7", "c3f2c900e8d774f82c5e14e90212dde4691b8a74") || abort("\"/system/framework/uiautomator.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/voip-common.jar", "9d1e87a152a3db063f33583e712b991182bf51d5", "f6b2e5840cb12c242602bcdbcbaa26df0aa18226") || abort("\"/system/framework/voip-common.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/wifi-service.jar", "0882225a9e06a2f925edd2ddf77272992389ce53", "4d3d7be793da502df97f249bdb4a45c1024a74fa") || abort("\"/system/framework/wifi-service.jar\" has unexpected contents.");
+apply_patch_check("/system/framework/wm.jar", "f25f162b989199e99ae8c478b8cadcd986afcf03", "f9369b4d182bca881175624387d835c951b1d291") || abort("\"/system/framework/wm.jar\" has unexpected contents.");
+apply_patch_check("/system/lib/hw/audio.primary.msm8974.so", "8f8b2b86505e3860f093e4c50881480f71db52c4", "db2ad5de93287a9d639213e6cb84ef3c5dbd69fd") || abort("\"/system/lib/hw/audio.primary.msm8974.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libLLVM.so", "409fe751aef74bc12f234b344cd5a6dd61d99a19", "9a11476e19717273d74b5b1b6e9e4d98d4b48828") || abort("\"/system/lib/libLLVM.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libRS.so", "329576e8e756ac1c249354686bac65e530d7c7fc", "df7e4eb97a0c530f325a0cf4badd05026d3c5f7f") || abort("\"/system/lib/libRS.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libRSCpuRef.so", "b2147c16543c184f6a1a54b04b2239ce2a80fe11", "93ac7da9890f4482e55e0a946e71211063f0086a") || abort("\"/system/lib/libRSCpuRef.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libRSDriver.so", "c194317af6370d4ca8f678ddcf6e5eb9a63b915d", "13e5a3128252472d77ea5c678a91feef7d0b01d6") || abort("\"/system/lib/libRSDriver.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libRScpp.so", "02458a9e50792055cc0ef40a568cef0dec534559", "59826ac9d8837fa4cf8dec44d6bf4fdf8f9278a5") || abort("\"/system/lib/libRScpp.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libbcc.so", "b59773d6975f8d27753dca007c4612ef9ba02f4f", "8fb7188f10de4be37a725eecb5065f647662d17c") || abort("\"/system/lib/libbcc.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libbcinfo.so", "d6aa5773aeb5e3bae35dc4cdb3a21379a7596014", "c78c5ae49f1bd26dea395884706f02b1b85f327c") || abort("\"/system/lib/libbcinfo.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libc++.so", "80c8de8725c84c5112556db20bd50fbdfdcc1ea1", "d93b833dfbd435f2f8881017aff9c4537d274f7e") || abort("\"/system/lib/libc++.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libcamera_client.so", "bc4c713db2ef4c0ade221d28888451cf76792388", "68bbd853236439aa60023ce3c8d5cdd7ed13c3f9") || abort("\"/system/lib/libcamera_client.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libcrypto.so", "8140ce6c6740c5e7d92708ccae8cb1ead61ae3ba", "0dfd6336a0679d922d1e73cf2ce4e1efc7a5500f") || abort("\"/system/lib/libcrypto.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libexif.so", "e9bed055f90e973f5a1a5bb3fb06774fffbaf161", "af29fe6edf889090685b5244ec770829cdc7f46a") || abort("\"/system/lib/libexif.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libmdnssd.so", "8e1b261d1185fe4c7c2d18f364ad68b4a3de7e70", "c8a66adb3fe30967ad7461ce6b8abd973d7d9124") || abort("\"/system/lib/libmdnssd.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libnativebridge.so", "62d2f14433eaaaea8689b0fafc571e0dae6f83c5", "3973812a05bd0b780e446611c35a8c7660b1a5f1") || abort("\"/system/lib/libnativebridge.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libnativehelper.so", "cb7ebf028309ff9773042c97a345b707fd3c2ddc", "63f23001bbf9a610950e865bc141a82f6158013e") || abort("\"/system/lib/libnativehelper.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libnetd_client.so", "03926287b6a32276b485225eecfb645e37da980d", "fef6e6d0ad555ffd0ddc52082caecd8f27a48e15") || abort("\"/system/lib/libnetd_client.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libpac.so", "a6fe4525799499e648dcd84c4b010268530de29f", "8b3f17ed873689577f3cf1c0ccd2e6c417cbc3b4") || abort("\"/system/lib/libpac.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libpng.so", "8a5ad95070cc9626a816bfa8a7738873bb96256a", "b91ff5df30ba5aee1f3ac9ef259cbf05f8fa7955") || abort("\"/system/lib/libpng.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libsrsprocessing.so", "7b3266891b528dcd8f0e966a9958e6b02f7fa798", "0e17ce91e9a548601b00e8199d8b4c60b5095d20") || abort("\"/system/lib/libsrsprocessing.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libssl.so", "5b2e155e3b3e5c566806621e4f14f1e24f27a049", "f7d5de172a54c61908bdd05ae008e0b130353e9d") || abort("\"/system/lib/libssl.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libstagefright_soft_aacdec.so", "ee35befff51637dc80f3f3af864aa213ddc6e961", "aaed83ec05657a36bca634710d746957dad78e64") || abort("\"/system/lib/libstagefright_soft_aacdec.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libstagefright_soft_aacenc.so", "9d4216f19610dd364f2aa1056c5f812dea9c7bef", "838af4c6dfff712258d5681ef51d03b8825896fe") || abort("\"/system/lib/libstagefright_soft_aacenc.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libstagefright_soft_hevcdec.so", "de10a4e618526fa7346c1b8696e4ebc2ead3c3a6", "83b78cd5aeef1ff137f27b056011c1f01fc5d93b") || abort("\"/system/lib/libstagefright_soft_hevcdec.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libsurfaceflinger.so", "43ff376f2bfe312f973616df14fa63cfc06dbab3", "219ae14adebb8a987a9ab6bc70ec6eecd6396c20") || abort("\"/system/lib/libsurfaceflinger.so\" has unexpected contents.");
+apply_patch_check("/system/lib/libwebrtc_audio_preprocessing.so", "0454736b32357c296208ca37decf52b7e9e1858f", "a6091a5e980ac73ece6b92ec424e45ea5c52057c") || abort("\"/system/lib/libwebrtc_audio_preprocessing.so\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/a8293.ko", "e956184820a591dd233534d5fc752d5e2a889647", "997811c057dc13c4c2312a960ed93e6c1da418fb") || abort("\"/system/lib/modules/a8293.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/adsprpc.ko", "a8c11b98f72d994cdbaf0ceaaf661578ba0878a2", "ac5e7c62a5fec94a2b9aad5d90ff45c7cf4a39a3") || abort("\"/system/lib/modules/adsprpc.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/af9013.ko", "30700d65aa4d4eeac0fda0ae26027b6a2be925d8", "97576d2005c56369e82946a7140c920aa5da327c") || abort("\"/system/lib/modules/af9013.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/ansi_cprng.ko", "f5b97841f02449f47741dd6ba8e9ebe7b33400a2", "73d163dbff55f607ba3cd502b0be87e490fe57df") || abort("\"/system/lib/modules/ansi_cprng.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/atbm8830.ko", "1f8c2761fade712dedb7a0759359ea15d966c9f3", "d04c2852a78732dfa8b145a4fa3c74618195d44c") || abort("\"/system/lib/modules/atbm8830.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/au8522.ko", "7de9fd5756e7dc7cef4a146167ce435a4c8dcca6", "f0ae0c61988329008c5a456c4da88a4278e76010") || abort("\"/system/lib/modules/au8522.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/bcm3510.ko", "051891b1af8674568f9a9e8d0a50fdd03a932063", "e2a9ef607ea8df13517c99e36432a184a5acb47b") || abort("\"/system/lib/modules/bcm3510.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/commkm.ko", "7a09f312bdfd8258ef2610655185259eae6bf532", "6a65bf091cbd1b2f67976245d4091fde6b20284f") || abort("\"/system/lib/modules/commkm.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/cx22700.ko", "741f3cfb74ae998f15b7fdd1476d5a564c3b30fd", "590021458e92bb39bdccbf67901eb84a55c3a351") || abort("\"/system/lib/modules/cx22700.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/cx22702.ko", "6ab284e9f5d64c4b91d55ff9a22dfe60befd91fe", "483bb7ef34bb2784a065210d4acc2815402e4592") || abort("\"/system/lib/modules/cx22702.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/cx24110.ko", "f9db90e4bdbb8cb7162d263cf606f697e95700cf", "85b4f6fc316045a4eeb0153d59de4f9f58900962") || abort("\"/system/lib/modules/cx24110.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/cx24113.ko", "f8adadd02f43a3cd9cd4f17231e8db62ae95b134", "49f5fa28ab85344b65b5efc869bf8fbefc779115") || abort("\"/system/lib/modules/cx24113.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/cx24116.ko", "458b3861e53eeefe50818d59e050f1dc975cd98e", "1e2635aa21568ec4ffe97d3f23cf3eb0b1a9c289") || abort("\"/system/lib/modules/cx24116.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/cx24123.ko", "aa44fc57e7e49ad322d09f00d53ed97bed6cf074", "39a66baf7518788993912432c2030fdf8c98d62c") || abort("\"/system/lib/modules/cx24123.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/cxd2820r.ko", "fad5e5163993826df4dbb3d32417f6f2de96acea", "4aa6da3c667704b37ef67c178a4119d2da336933") || abort("\"/system/lib/modules/cxd2820r.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/dib0070.ko", "cfbe5d9ccb63c9f946a9cf708ea28742848dd67d", "485af3221414ea480b1097ff4a5fd4d4431d83fa") || abort("\"/system/lib/modules/dib0070.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/dib0090.ko", "587fa390867e3defd696b1e4f37f5a05d81395d7", "fa4617e80e31f43b80b32941b9411c1401a3abb8") || abort("\"/system/lib/modules/dib0090.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/dib3000mb.ko", "61d99ea5ac17df840ba51bdd9f2604ccef7353b2", "8baf0f152ca8d2574934d5b2c960b59a5293fb62") || abort("\"/system/lib/modules/dib3000mb.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/dib3000mc.ko", "2f9ff290b5c8dc76237b22d674fe4db4962d8f10", "317d66a22bc1b2735a7b9af048f25ae469c72490") || abort("\"/system/lib/modules/dib3000mc.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/dib7000m.ko", "d5e5f11cda2d126e405ee76b83ccfdfa3e5ab963", "77a8354c36c8aa46c7fc41f5b383a665fe909d0b") || abort("\"/system/lib/modules/dib7000m.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/dib7000p.ko", "db95542d2a4e6c74e969e7696b3edf96ae3d1997", "6cc4e91c03760e1ed9dfd72f44d3ae7c3078d91b") || abort("\"/system/lib/modules/dib7000p.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/dib8000.ko", "166c52b8a97de172990e9f5dfa5e6bfa06142e30", "20c5683100639260836cbec1410dea05cff2e089") || abort("\"/system/lib/modules/dib8000.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/dib9000.ko", "f895fd99480c472c4ee79037e967b9a1707e6a91", "a088130aa2fa052a482daf8234d35c3c5e34994b") || abort("\"/system/lib/modules/dib9000.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/dibx000_common.ko", "3da32178c533a8134e0443db1e70fd943c8feec8", "7b4c13bdbb5685041fb6152db79c2c8a6c64ff78") || abort("\"/system/lib/modules/dibx000_common.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/dm-crypt.ko", "05b3f0ffc086c633e31b96da100c7599594ab775", "e49f0e6565fb689cedefc8d08933ca0d8b8245d4") || abort("\"/system/lib/modules/dm-crypt.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/dma_test.ko", "b66f07a31f6b6aaa0386ce99215841c89ee89270", "d44e6f5d156729e6649b3bbf8700ca815f52d35f") || abort("\"/system/lib/modules/dma_test.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/drxd.ko", "5a0671990b942a214f00aa09e32dd33ff2e07952", "e33f34d439810a30341509191b839d904a0011fa") || abort("\"/system/lib/modules/drxd.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/drxk.ko", "39120daad9366abffc03cb7c36e97e765d5a7967", "a5b319a90cd57da30f76e3ca6d9a218334bf0cd7") || abort("\"/system/lib/modules/drxk.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/ds3000.ko", "89d63e91abc41b8437a3753d809eb74c43fb321d", "dbc9d5df6dc455c93c7ddb5c9620b172bb05d7f0") || abort("\"/system/lib/modules/ds3000.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/dvb-core.ko", "e7868a2507dd3af7d33de9aaa8bdd497b260e673", "1b43891cf69b321cc3852fffb7783f9131b76832") || abort("\"/system/lib/modules/dvb-core.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/dvb-pll.ko", "2ec7ff7b945e1ad260e87a4708d64919459e445a", "37ab03587b11404f57d26b74dc01840ebcbcc30f") || abort("\"/system/lib/modules/dvb-pll.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/ec100.ko", "ab6326a76e61fbfab2f2b5f119c79567654bffb8", "f911bfa0d356bf7a51e585dcc30891b77eeb5e14") || abort("\"/system/lib/modules/ec100.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/ecryptfs.ko", "dccfca839fdf95a4b16e409b0b0b10d48e658582", "23f34799d6c9fc7f36bb04d0919c091e8a8e3e83") || abort("\"/system/lib/modules/ecryptfs.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/eeprom_93cx6.ko", "9e1ef6392b1d78a5ab96f90bec4c2054e0de213d", "bfb64e534e7d181c1897a8c483101bf84fde8ea0") || abort("\"/system/lib/modules/eeprom_93cx6.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/evbug.ko", "399103c1c1836bcbfc722db26add09c1c6659242", "cb2dd312734c6ff012613131fa960bd2c86c20a8") || abort("\"/system/lib/modules/evbug.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/gspca_main.ko", "84ae4065e5a088a86cf8db01c94dd763e2f455b3", "2afaa311db338a550ec7475b78f4c888e7dcd500") || abort("\"/system/lib/modules/gspca_main.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/hd29l2.ko", "ce38506e815799427cd1c8edb7d94588dbb55684", "bce005c6ad75371f545a3e75aeb270ee3318200e") || abort("\"/system/lib/modules/hd29l2.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/isl6405.ko", "8a3a72227ba7e38de3e8261c70ee0387df02cbee", "d45b4c558976615e3681aa7a70b5456ba708ace8") || abort("\"/system/lib/modules/isl6405.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/isl6421.ko", "9128755f193db0c6dd0d1435e8294fda7735d19c", "e2bf8a012d50711aa9ef9728077bc913e8641648") || abort("\"/system/lib/modules/isl6421.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/isl6423.ko", "b4a9dbaba257a5e2e5982a9c37ecdee6dc98ae40", "365feabade3dd68f4ccc25e9f73e1f8bd66fe1f5") || abort("\"/system/lib/modules/isl6423.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/it913x-fe.ko", "479a9cbfca7da9b17e980800b68db67626eb2218", "5a178bf2942383733b0b9eb17da46860a1d4fa3e") || abort("\"/system/lib/modules/it913x-fe.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/itd1000.ko", "20089ee074213ad421e50d3e3c084e1555f91ba9", "0dc534a6cc472482796afd6ea4af51886a970f37") || abort("\"/system/lib/modules/itd1000.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/ix2505v.ko", "43e71c65ae5715d7c4ea1230e99306281e7f9686", "7e84a2d118b3081747a07c3a4516d7a343314fbd") || abort("\"/system/lib/modules/ix2505v.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/ks8851.ko", "97d11ad24aa99d92020aed411ac188de190a4672", "2363e45dd49c964c7e8cbaf2dfd46551063ee677") || abort("\"/system/lib/modules/ks8851.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/l64781.ko", "1735af4a45dff27843068077ac3a89b7846fde98", "10ad09bce2d09890be865561b8d0d0e071d961f9") || abort("\"/system/lib/modules/l64781.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/lgdt3305.ko", "5da07bdeb29b781bf84fe39e75d49f3d60e5dda2", "3b4a6181e7c4c07f04fc00a27928256d84521f8f") || abort("\"/system/lib/modules/lgdt3305.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/lgdt330x.ko", "ebb3c67e7434e80200d81d9ec9e56b2a04848ab2", "7ee84231bf42c85b222e72a3e02885a8c7682b07") || abort("\"/system/lib/modules/lgdt330x.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/lgs8gl5.ko", "b5ff10be9225b0d5abb03e3b042cec1b1a684da4", "3051831e6d7ea0c223ddb482c280a8ce818336bd") || abort("\"/system/lib/modules/lgs8gl5.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/lgs8gxx.ko", "1ecf6cdfe6d9d290fc0c926edfd4a8d8b153ddde", "3f0a9a4b40f208ae389bc73b8f7d5f397189f223") || abort("\"/system/lib/modules/lgs8gxx.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/lnbp21.ko", "c514527a6f5acb9059e8e577105b1ff14b0fbe6d", "6af8a6c8665e3eaa6ca01b764c76b717a3f013f0") || abort("\"/system/lib/modules/lnbp21.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/lnbp22.ko", "aa47e0b9c1c8f7a9f5689b5a117c32ff60a918d3", "9291765c532b26cbd6d3e9b477496d6c8349d9cc") || abort("\"/system/lib/modules/lnbp22.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/m88rs2000.ko", "ded6b89a92fe7b820695f3b7ec01ff0abb10e5bd", "5bb83c8521571b827bc30ed15e95a97897cb6beb") || abort("\"/system/lib/modules/m88rs2000.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/max2165.ko", "25d49a10745c851039b43c82891ef15adba31082", "9710a8e91cbf31f074a19b4ae66571734ddd17f7") || abort("\"/system/lib/modules/max2165.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/mb86a16.ko", "716d9e1c200436684980efd0f5e4af15701b9892", "c596744c061eeaff8030906ddb10cfdacac55796") || abort("\"/system/lib/modules/mb86a16.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/mb86a20s.ko", "3bb364df3de33715cf9bc18844deebc5baa87390", "a93fa32830828871673a68edf79fdbe380689eba") || abort("\"/system/lib/modules/mb86a20s.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/mc44s803.ko", "6ab101d8630d5c1860bc9ce01b018316087d7ee5", "b22df3af5779b76ac512b9d912db2a7a8b721d8e") || abort("\"/system/lib/modules/mc44s803.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/mcDrvModule.ko", "ac5aa789e1a58a891758e22909482d60555c9c2b", "8ac177b202a3163e099eab903bff4f082f91bde6") || abort("\"/system/lib/modules/mcDrvModule.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/mcKernelApi.ko", "9d6c106cce373b3d0296f7d99fbdbf58ad5ba5fa", "dd492093f4484f119284869adf4ac53e1f587819") || abort("\"/system/lib/modules/mcKernelApi.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/mpq-adapter.ko", "d9f76595414bb00233717197730d6c4fa8d1519c", "a94fb418c161fe7512b692b8a6f7a97a208a3c00") || abort("\"/system/lib/modules/mpq-adapter.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/mpq-dmx-hw-plugin.ko", "f7d3a1a1993a8a606bbb7eb8aace8cc9d57cd846", "c0a07347cfbbc0643af2a9dfdbbf692cb03df628") || abort("\"/system/lib/modules/mpq-dmx-hw-plugin.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/msm-buspm-dev.ko", "15ca5ea8d6bb1ca360848109989cffbe65d788f2", "88f385bab107038a9dd77bfde0f077a49f144eda") || abort("\"/system/lib/modules/msm-buspm-dev.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/mt2060.ko", "b8ffdc316bde2c20d69a20901a38295c1d78e3cd", "380c8771b00fdf90241d1f25e6aca4609428369f") || abort("\"/system/lib/modules/mt2060.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/mt2063.ko", "82586b4f736a974128628a0a4ba15b7711a7c742", "1507039d96d3ab551231357d4020a6915ac0bd02") || abort("\"/system/lib/modules/mt2063.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/mt20xx.ko", "faba692852f6c8dcd9c1dca9c1d15777325895ab", "4dbec31b4069704946b9a1957c0aa12dd9da3935") || abort("\"/system/lib/modules/mt20xx.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/mt2131.ko", "27f849a52be4ac7cfc567f048816e005f5019238", "7f80522d1d70408963c31385362e36384d1cd46b") || abort("\"/system/lib/modules/mt2131.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/mt2266.ko", "f7d45cd4024739bbbbe14a718fef5a533fb86214", "ddd785708a2f3b62e137936cc5c64c77c5358cf7") || abort("\"/system/lib/modules/mt2266.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/mt312.ko", "ded996b192e9e9ef5779dbbd21bdca48dcd6d22e", "b4a814948f98bf280175defc2ce8a9ef830bf8a0") || abort("\"/system/lib/modules/mt312.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/mt352.ko", "85b2ee0035d32f0ac0c0cf73e6f2dfef3ec84ce1", "46df8d635a56266f9f12ada36503d96d1e3f5b07") || abort("\"/system/lib/modules/mt352.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/mvpkm.ko", "bf088257c3aa83b98d3df4fcccb344604b373ec8", "e9a4f8941b13927a16e0afef3de7ed02891cba86") || abort("\"/system/lib/modules/mvpkm.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/mxl5005s.ko", "1cbf64bb32fe398291d2a7fe7ba8cb144a9c14e1", "369051d3d6c965c71a54838b423f0338d7046e99") || abort("\"/system/lib/modules/mxl5005s.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/mxl5007t.ko", "b88067074130909d8a93ae1a3cf2cdad139714d1", "b9e4a5152fbfd1885c8092f7b7e81425a063a74a") || abort("\"/system/lib/modules/mxl5007t.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/nxt200x.ko", "ceb3a75e0ae14f686fe425b583c7d8c65ebfb5c7", "b2c47c89ee95355de49f37a279f901f987a6c537") || abort("\"/system/lib/modules/nxt200x.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/nxt6000.ko", "fa8303e50c4e183f7029808cd11499d8cb1c077c", "850873908905bb113954c7936f2045d56782d53c") || abort("\"/system/lib/modules/nxt6000.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/oektestkm.ko", "34bbcc3c26f32477f834235ec104117f3c13e2fb", "9e9c55b5a06b19a7434d8b0386ff5b468cc71e55") || abort("\"/system/lib/modules/oektestkm.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/or51132.ko", "b7e718e5d9a596c315e83a357294bec81cac7690", "c2f16c20761c50bcbe908765db3d0d3408b4a2ef") || abort("\"/system/lib/modules/or51132.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/or51211.ko", "65bcbbe7b8a6e4b60088b5d052298016260bf792", "5c13528aa4799df814d5106b378164de33341288") || abort("\"/system/lib/modules/or51211.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/pronto/pronto_wlan.ko", "55e9e63ad8dbef1bd9af79ce47dd3ff36d46dd1b", "5cc88be4ed48dd360bf324d29ff9c9a720f6d3b5") || abort("\"/system/lib/modules/pronto/pronto_wlan.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/pvtcpkm.ko", "ccb8df5b5a6b512140a95f734ad5968ca0f864cb", "d66d87caf8bec1d0a193a83849dc5f0d28f107ae") || abort("\"/system/lib/modules/pvtcpkm.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/qcrypto.ko", "f72e5ef139346b5d226efade9d35e6fff8dc527b", "b869f8ac874bf434d8c5bdffeb7c94457750da30") || abort("\"/system/lib/modules/qcrypto.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/qt1010.ko", "898dbdaadc6038d8617ec1c1ceead4c8161e0674", "a09c62c120cf69f2c83f0cc9d66edd181299ed4f") || abort("\"/system/lib/modules/qt1010.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/radio-iris-transport.ko", "860e02cbfade667169318ae55272f759a7f26a9c", "c86816575840a1ca3399dad525ecf62d901afa28") || abort("\"/system/lib/modules/radio-iris-transport.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/reset_modem.ko", "a37d89b2cedce4b2f5f77f29a5ed56f876c4a78e", "854308d7e5cfe8a4917b3787b314d76d67ff7969") || abort("\"/system/lib/modules/reset_modem.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/rtl2830.ko", "cbffcfb5ae8d919ac760d45f56cf5e2dd1b2a4ba", "4c551e5b288c5a704dddf284640b32006bbb91af") || abort("\"/system/lib/modules/rtl2830.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/s5h1409.ko", "097f73e548ddd68fdb429eb9bfa09216c497fca6", "127c5760c31299e96c99693f76ff01f90cff08d1") || abort("\"/system/lib/modules/s5h1409.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/s5h1411.ko", "7788216d7beaba8e6c05e6491c7310953b403913", "2a15a6195d49007ee4ccd0d4ed6fd7663e784292") || abort("\"/system/lib/modules/s5h1411.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/s5h1420.ko", "f65614562984e253eb2bcb9c910f23c1cc74c583", "61bc4a62e483e13b1ea87db2f187d2392ca0eda4") || abort("\"/system/lib/modules/s5h1420.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/s5h1432.ko", "f935f1c62bb85ec2afb5d82a4bfc329c24f71525", "fb9567c081ac0ebfac00be0eb3ad8c2fb853a37d") || abort("\"/system/lib/modules/s5h1432.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/s921.ko", "b3a91b7ce0e5bee37e2a7d2e32baff2f8b8fc839", "24e9472928900b30b3b0d90958af70ce662b14e4") || abort("\"/system/lib/modules/s921.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/scsi_wait_scan.ko", "9761091fbc02704abbe43d6c65c94fb2600466ec", "8360e031a940284a4bf2d40723ed44e7874f84af") || abort("\"/system/lib/modules/scsi_wait_scan.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/si21xx.ko", "2827ea504a884d26d3ac10c1c924220976147135", "678470b1ee13057d1a93573c7b8c6bee6ccf20cc") || abort("\"/system/lib/modules/si21xx.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/sp8870.ko", "5c33e9848544458e859a79eedd96b16ebcd03d1f", "e855e8eadc29d73774296a48ba5f2ffa1f6965b4") || abort("\"/system/lib/modules/sp8870.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/sp887x.ko", "219b6da3f9be50b043cded65ba6c1b03b397c4d3", "baacde8011fc10325a20e13139e8109468d945b5") || abort("\"/system/lib/modules/sp887x.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/spidev.ko", "d9fcefe1462131532eb53dca09057bab6f958c3e", "8949d3f24068434d40667a024ffb471f61988e10") || abort("\"/system/lib/modules/spidev.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/stb0899.ko", "2767b4935c2e79f56eac86c867bce79f5832d46a", "53b706404415d4079971030ec9c24d72ee476e77") || abort("\"/system/lib/modules/stb0899.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/stb6000.ko", "626eed8d8a63dc77f51d8b7c1501427020d3d598", "e5dd20eece0506983f7a49448f70569f7074346a") || abort("\"/system/lib/modules/stb6000.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/stb6100.ko", "8f2ffc7fecab745038cac4b616fe14619ea16333", "f2544e893ed12de0f8f67293ce6e2225796dc38e") || abort("\"/system/lib/modules/stb6100.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/stv0288.ko", "dcd33e59c77a7f5d9a2fe25a428c983135677758", "60d8a69e98696e8ab33d966a57811de5f390d911") || abort("\"/system/lib/modules/stv0288.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/stv0297.ko", "80222bac31653d49ba18194030beffeca16d67ec", "38578e36daa2c0ba1b6a38b6e1a03b50980d9e3c") || abort("\"/system/lib/modules/stv0297.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/stv0299.ko", "0808489e85255590035967d5d11c373d0666af53", "f5d162d41a5659ae4846ec8e1618031a8145e62c") || abort("\"/system/lib/modules/stv0299.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/stv0367.ko", "e34622ba95bf73ca3077d0f0ffdefbd811eceea9", "8cf52227c06b4c1e1ec2c51bc6ceaa5a31b4cfcf") || abort("\"/system/lib/modules/stv0367.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/stv0900.ko", "297fd105c6e74082d6d95ecb612564266a84bbd7", "ab0fc3cab96d26bb8aa67e1a2847e8d18553b93a") || abort("\"/system/lib/modules/stv0900.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/stv090x.ko", "e4625edb7b76482bd546e573a1a03de8396a3240", "b221e9ea4805f2eb70f621fa8f86570bf3568a5d") || abort("\"/system/lib/modules/stv090x.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/stv6110.ko", "f5c7553291cf53d5a79b8628537e5cdeff14c2b8", "d97b35f0557b639e24ba68b47aeadb8e004d731a") || abort("\"/system/lib/modules/stv6110.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/stv6110x.ko", "3f9902afb28866caabaabd18d06b9e8a834c5352", "004d5ee9972454af0241cb85f8e12ea51bce0d0a") || abort("\"/system/lib/modules/stv6110x.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tda10021.ko", "5a3625c20e3ea89182a57a2c06b0a1281d67005d", "dbebc0d80697a9f4f176587dd2ef720c77e5a8af") || abort("\"/system/lib/modules/tda10021.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tda10023.ko", "32a53dbb2d207aa4d4ba423313077918cc33ac58", "b4444c82a68cafbe819e467fa800525fbb8cce29") || abort("\"/system/lib/modules/tda10023.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tda10048.ko", "9ad9386b4d2efc1df88a23bad23053ba23f3015a", "2526190c5cf69dfbddf1f4531b4b45f1f0813830") || abort("\"/system/lib/modules/tda10048.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tda1004x.ko", "535672f6534000b80f874893a503d543a98b9ca9", "856cea74551c8129893988b25d57c8f7d081a593") || abort("\"/system/lib/modules/tda1004x.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tda10071.ko", "3542df777e09b65d7be8dbd86d44cbbb89904590", "b1bcca28ae6a9df4e111fb03d952d5d073f34eeb") || abort("\"/system/lib/modules/tda10071.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tda10086.ko", "b4fbed19e59e901e57302d16ad5a3d589083d4df", "10e46232efa3f2ad2ce5ae1ade29518af4ec619e") || abort("\"/system/lib/modules/tda10086.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tda18212.ko", "5219636d7454b53f61db4a5be22cac604b7d705f", "f24e06855cce00b063789351e8cb68d920d4fc3a") || abort("\"/system/lib/modules/tda18212.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tda18218.ko", "2d6634de8516c79d101cf9b1812058600e5e334a", "3e4b3adf15e84d9427377a0c226dcc244470b0e3") || abort("\"/system/lib/modules/tda18218.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tda18271.ko", "ff7dc23db8758b7068acc69fda83c392c14b5c04", "121598282259ce322bcd3e2cf01a2db1a8ce921e") || abort("\"/system/lib/modules/tda18271.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tda18271c2dd.ko", "e1a778e1d21063f05d995a1c2c84285a28044a1f", "0a96e6ed0b9161b8a7165875e7d0581cef4d64f2") || abort("\"/system/lib/modules/tda18271c2dd.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tda665x.ko", "d11002bf2893040c66ca548bc427e6dcd2ccd295", "f12445a0a9885e1dae82e6b447be40969f73a1ec") || abort("\"/system/lib/modules/tda665x.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tda8083.ko", "31abc6d66df346493b2a3faaedf82d5cf992b3e0", "5a4357cdf65cfe39239fe72b4b5e549e3098e9b6") || abort("\"/system/lib/modules/tda8083.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tda8261.ko", "648c1c024f5a10655ab626a809f90c1fff43af4f", "1bf45472137783251a5ba19d586e35b39e549c7e") || abort("\"/system/lib/modules/tda8261.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tda826x.ko", "e03315cb325b54eb35b360d293169e2709446fd2", "583f2e91008716d16b4f13b039b806ee6fa62dd0") || abort("\"/system/lib/modules/tda826x.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tda827x.ko", "625ec41f87f12addc04449538ee0d62b37a2002c", "c59080c0d01edac455d9f57c35e48a7094071253") || abort("\"/system/lib/modules/tda827x.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tda8290.ko", "1fc34619376cb4f6cd25dc94f2999a5ac789424c", "d7a2d06f446dc2978cae717be9d524c38b6a05a1") || abort("\"/system/lib/modules/tda8290.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tda9887.ko", "6bfaf465c1f29217e663a537c59a9bdd9c880758", "50eb643e64df7a7dbe7ddc4b0ec72a28b648f081") || abort("\"/system/lib/modules/tda9887.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tea5761.ko", "ad30e14ee84afe3211d6f181cdb02b725b72bbed", "b9c158dc3336a1abdd0afe9440e385cd3b132015") || abort("\"/system/lib/modules/tea5761.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tea5767.ko", "d682984859c22cfc64e648fcaaddb979af2784ae", "d0477c35a45deb569f37485ca6f80351ea51b00a") || abort("\"/system/lib/modules/tea5767.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/texfat.ko", "24ef3dc7ad868e04435876ef1a8d863934603a2c", "ff785ca4e2d4d4a4a9a7c7f8964243b20b32717a") || abort("\"/system/lib/modules/texfat.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tspp.ko", "dc1ea102a31a2ff4d3dc691b75c164931f91d8bd", "a7112768e730915da5f7ded652d720eea54dcd64") || abort("\"/system/lib/modules/tspp.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tua6100.ko", "2e43352ec7fc0db4220b5200637f5a1dd983eac6", "c653f3a73403ebde6c78c60c66c02b96d4e5b9a0") || abort("\"/system/lib/modules/tua6100.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tuner-simple.ko", "d52da94121613870f3097c1dfc7dda337c361657", "5abcc5d25a6c1a588b849ff4a90eccdf69d1a9b1") || abort("\"/system/lib/modules/tuner-simple.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tuner-types.ko", "d5d73c331886d3ee1926577a6d990ebdf43556e3", "9402967302634a68f73818a318a37856c616104a") || abort("\"/system/lib/modules/tuner-types.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/tuner-xc2028.ko", "6c4fe5e05b439a93bf8593beefa89a73854fce37", "6bd0382aae2b102b52319ecedbf15f8eee50870f") || abort("\"/system/lib/modules/tuner-xc2028.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/ves1820.ko", "549c62e333f54c1274154d752d674e484d130d5f", "f864f909d3018c9bd910022431bbe68b5f0583cb") || abort("\"/system/lib/modules/ves1820.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/ves1x93.ko", "7966af8edd7894a1bbb466e439581b89747da575", "fbdef22ec7be4a3e66ea37593d171c321a5fe099") || abort("\"/system/lib/modules/ves1x93.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/xc4000.ko", "fa27a4bb5636d419333496b3d516c27655e2b394", "5d1d5042b72909f5f89bfa772a024e851dfb256f") || abort("\"/system/lib/modules/xc4000.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/xc5000.ko", "a353050766c19c3d9f60431cb5d94598da89f0a9", "6a156cd54e6febda459540778d94c28dda43dbc7") || abort("\"/system/lib/modules/xc5000.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/zl10036.ko", "f418b4c399b161e96ce96ae5d49880abf2c8ee04", "8a5b494926e8180d153f03402ea2c52af89dae07") || abort("\"/system/lib/modules/zl10036.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/zl10039.ko", "1cb1d7101de4d9899d99e5700bbba8f19cce36cf", "aa177ab5af021a011eed3532bd05761a9c9d938b") || abort("\"/system/lib/modules/zl10039.ko\" has unexpected contents.");
+apply_patch_check("/system/lib/modules/zl10353.ko", "dac07168efed4984b0e44e68cc38710e45b17237", "f9ad37ce5b8fc4efca5c5768e8aed96564620631") || abort("\"/system/lib/modules/zl10353.ko\" has unexpected contents.");
+apply_patch_check("/system/priv-app/BackupRestoreConfirmation/BackupRestoreConfirmation.apk", "5bb66a315d09eed8de975c63785d552503d4d729", "fd3821d4a1869c94a5f78b8a79cb12d79e563b00") || abort("\"/system/priv-app/BackupRestoreConfirmation/BackupRestoreConfirmation.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/CalendarProvider/CalendarProvider.apk", "7b0e0c0a2af0b014e307b206a2a7706ec1bc0b7b", "876c722a7211b592eee3a0d9b8a75a1a3dfc4ae8") || abort("\"/system/priv-app/CalendarProvider/CalendarProvider.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/CellBroadcastReceiver/CellBroadcastReceiver.apk", "d470c6edf87b5586e7e4cbf5bb5c9b87b0725e49", "429430e8b6611824b028b5ffc539ec0f22d339b3") || abort("\"/system/priv-app/CellBroadcastReceiver/CellBroadcastReceiver.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/ContactsProvider/ContactsProvider.apk", "5f30339f87731805746503e01fc00fe290ed4da9", "446065f1ff81143be79faba40dbf1d0d483724df") || abort("\"/system/priv-app/ContactsProvider/ContactsProvider.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/DefaultContainerService/DefaultContainerService.apk", "0c0c057ed840b2da199c0bd85603532f3f62deab", "0ae579e4d3a540df2521134435a2398abe9bd07f") || abort("\"/system/priv-app/DefaultContainerService/DefaultContainerService.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/DownloadProvider/DownloadProvider.apk", "b11320305d7b05afebd53877e12c2b911e10deca", "4679fad407397d86092ec74a7b317ff1382d0535") || abort("\"/system/priv-app/DownloadProvider/DownloadProvider.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/ExternalStorageProvider/ExternalStorageProvider.apk", "6734b77f91c944545f63c3f158d3c9d35c521c6b", "b25d68220bc1be185a868bede191c9ef290646fe") || abort("\"/system/priv-app/ExternalStorageProvider/ExternalStorageProvider.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/FusedLocation/FusedLocation.apk", "b96f98e10382fc7f9c28199ac420a12e9252ea1d", "dc416ce7555b88f8d9dc033bbc2344e3ddec79b5") || abort("\"/system/priv-app/FusedLocation/FusedLocation.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/GSD/GSD.apk", "17f3806fe8f8d0a155c9cb573fdd1d4efd6ec381", "1fa2d36435258c732da0baa834a60f96dbe307a2") || abort("\"/system/priv-app/GSD/GSD.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/InputDevices/InputDevices.apk", "4285c6d9072fbd32bf2f18a3fface24361033f1c", "73bca4a1555cca82372a5f4b90967ddb82cb1347") || abort("\"/system/priv-app/InputDevices/InputDevices.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/ManagedProvisioning/ManagedProvisioning.apk", "cb15c34425d8dbdac06fa1ac0653721efbcfd6a9", "1d9b5c09ab0a7372d2a895353f01bcbb27360b91") || abort("\"/system/priv-app/ManagedProvisioning/ManagedProvisioning.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/MediaProvider/MediaProvider.apk", "bba5de71b14ad2ac52ee4fdefd5cfb5c0540dcba", "7256fb149a0bbeb73194cfcacaac6163340238e9") || abort("\"/system/priv-app/MediaProvider/MediaProvider.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/MmsService/MmsService.apk", "310590b60c64078804aca14bb694db3d67728619", "124a2ceca2b0550fe6126e17c2bc0c7c98331644") || abort("\"/system/priv-app/MmsService/MmsService.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/MusicFX/MusicFX.apk", "0f65ee4184951656038dd382e8f206fc9b42b20d", "e5c709454bd424869a8981362395d812cb77283e") || abort("\"/system/priv-app/MusicFX/MusicFX.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/ProxyHandler/ProxyHandler.apk", "5847c6e504b27b000e63cfcc9d9486f75005f93b", "d49403b297fef18e5a181e17c96866b7a6225cf8") || abort("\"/system/priv-app/ProxyHandler/ProxyHandler.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/Settings/Settings.apk", "38cf0bdd0a6a944510fe46f19df0ae337a56e9c1", "cc5477dc6d779affe4ab3b4e07ae2be67ff243e2") || abort("\"/system/priv-app/Settings/Settings.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/SettingsProvider/SettingsProvider.apk", "ca178e507cf5f0186a799a44f1d5b6f3879bf30a", "d869435082f644df686c9d3bfabec53abbb5ad6e") || abort("\"/system/priv-app/SettingsProvider/SettingsProvider.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/SharedStorageBackup/SharedStorageBackup.apk", "c8653d2555b15b4c85915775f61dcdf0fbfedda5", "0f10842c48e046b47d13c8807e64c5db4f07a418") || abort("\"/system/priv-app/SharedStorageBackup/SharedStorageBackup.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/Shell/Shell.apk", "4e4b83a2b4847cf6767d7122911886a05d509647", "4148a815afd0f429fe47ac765b0e131c68656bba") || abort("\"/system/priv-app/Shell/Shell.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/SystemUI/SystemUI.apk", "637b8f9bd0f80b5b351d594914b6d5cdfe29f49c", "c032b3cf7bd94a7f8b20d44f17789c11423ac36f") || abort("\"/system/priv-app/SystemUI/SystemUI.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/TeleService/TeleService.apk", "5fa300fb38b64a844e74fc7d0b5bd35c6c387213", "9f271f721071b02f766c2a32ab106723f856e438") || abort("\"/system/priv-app/TeleService/TeleService.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/Telecom/Telecom.apk", "a1e42b5e3fc6df06e4a64a3726cd46d2fe5e9359", "493f3ea1802c07bb1d72ad1d87b8ed99372f97b1") || abort("\"/system/priv-app/Telecom/Telecom.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/TelephonyProvider/TelephonyProvider.apk", "1d252e420e950c970a2f7d24a209517a08e9f116", "7b70b2505d4f55cb468818266b2e91a53e7c71a8") || abort("\"/system/priv-app/TelephonyProvider/TelephonyProvider.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/VpnDialogs/VpnDialogs.apk", "cf25ee986d3795b9297ce758e0540f888fcb81c1", "f994f7cc980ed92afca28295abd1a591e91a841c") || abort("\"/system/priv-app/VpnDialogs/VpnDialogs.apk\" has unexpected contents.");
+apply_patch_check("/system/priv-app/WallpaperCropper/WallpaperCropper.apk", "12d4bc1b9595ff9cfe87ff26364712882f773349", "e897b425d777187f7fc208fa92204612ada40c92") || abort("\"/system/priv-app/WallpaperCropper/WallpaperCropper.apk\" has unexpected contents.");
+apply_patch_space(15890936) || abort("Not enough free space on /system to apply patches.");
+
+# ---- start making changes here ----
+
+ui_print("Removing unneeded files...");
+delete("/system/customize/AAInfo.txt", "/system/framework/services.jar",
+       "/system/recovery.img");
+show_progress(0.800000, 0);
+ui_print("Patching system files...");
+assert(apply_patch("/system/app/BasicDreams/BasicDreams.apk", "-",
+       03aa1d4de53fb08956fe3289e76cd42c288ea2c0, 33551,
+       5fd90493aa44d23ba64d02d5cf31c904cbffa189, package_extract_file("patch/system/app/BasicDreams/BasicDreams.apk.p")));
+set_progress(0.000396);
+assert(apply_patch("/system/app/Bluetooth/Bluetooth.apk", "-",
+       bc5ba4977cf80d3cae6d6a530b7ac7bac6e2c2c1, 896349,
+       6acb6a50ee5567a5cd56ee87de37a96623f00351, package_extract_file("patch/system/app/Bluetooth/Bluetooth.apk.p")));
+set_progress(0.010962);
+assert(apply_patch("/system/app/CIRModule/CIRModule.apk", "-",
+       85345a72344549a62c096c14ff68037c2215019f, 59026,
+       c5e41fe8107c365cf32d547d20747fd98745e6e3, package_extract_file("patch/system/app/CIRModule/CIRModule.apk.p")));
+set_progress(0.011658);
+assert(apply_patch("/system/app/Calculator/Calculator.apk", "-",
+       e3dd3ff0b20f1cec54d38b5185011531d05571ae, 349672,
+       8167227be2ba3103a07a0f7f96527bb86c21b1ea, package_extract_file("patch/system/app/Calculator/Calculator.apk.p")));
+set_progress(0.015780);
+assert(apply_patch("/system/app/CaptivePortalLogin/CaptivePortalLogin.apk",
+       "-", 55a0f6eb29dbccc9a4d311d4cebea557a90387bd, 35310,
+       74c118868751a42090ca597a90456c086dcf1cf7, package_extract_file("patch/system/app/CaptivePortalLogin/CaptivePortalLogin.apk.p")));
+set_progress(0.016196);
+assert(apply_patch("/system/app/CertInstaller/CertInstaller.apk", "-",
+       aff38f5380fadec91b5e98ca0f5ff2d070e372b9, 159847,
+       961666b7205344e722dd538b2f0f89bb716c9841, package_extract_file("patch/system/app/CertInstaller/CertInstaller.apk.p")));
+set_progress(0.018080);
+assert(apply_patch("/system/app/DocumentsUI/DocumentsUI.apk", "-",
+       d5c4aa880891700cf3d9ad54bb94c56073e64196, 470436,
+       57bc79fb9911c4efbbde3c9f45090d07618c655b, package_extract_file("patch/system/app/DocumentsUI/DocumentsUI.apk.p")));
+set_progress(0.023626);
+assert(apply_patch("/system/app/DownloadProviderUi/DownloadProviderUi.apk",
+       "-", bccc023bcce11b8d6e78ab8b06a31a219143f501, 164421,
+       ab00526ed66ed98322a2a41d556e85a114ca959c, package_extract_file("patch/system/app/DownloadProviderUi/DownloadProviderUi.apk.p")));
+set_progress(0.025564);
+assert(apply_patch("/system/app/DriveActivator/DriveActivator.apk", "-",
+       88d8e5d295ae5ea6e5751d8644bff88680491e73, 113682,
+       a0b039e763c82d9ee1805f459602dcfd24846c3d, package_extract_file("patch/system/app/DriveActivator/DriveActivator.apk.p")));
+set_progress(0.026904);
+assert(apply_patch("/system/app/HTMLViewer/HTMLViewer.apk", "-",
+       556c3ca9c32427ff047f39ba6c0b91b9fa3c749c, 12887,
+       3853c343f905a4de8be6d7da3a700d8dda7e920a, package_extract_file("patch/system/app/HTMLViewer/HTMLViewer.apk.p")));
+set_progress(0.027056);
+assert(apply_patch("/system/app/KeyChain/KeyChain.apk", "-",
+       acc5a165e1bc642e5cbc3da64c877a73fcada8ed, 74557,
+       4654bc4cd0dbde91f0542274ca48b3903dc58a2d, package_extract_file("patch/system/app/KeyChain/KeyChain.apk.p")));
+set_progress(0.027935);
+assert(apply_patch("/system/app/LiveWallpapersPicker/LiveWallpapersPicker.apk",
+       "-", 23190a5af7bc16fcff527778338a678521597a8d, 178838,
+       3a92a28a3d423f2de1759fa86ef2b58633d18ca1, package_extract_file("patch/system/app/LiveWallpapersPicker/LiveWallpapersPicker.apk.p")));
+set_progress(0.030043);
+assert(apply_patch("/system/app/Nfc/Nfc.apk", "-",
+       40ed1e249568895b0201bc07854c9d2b5cc79a0a, 424507,
+       942655ca0c6511ab7f6bc876ec6164f60ebde9e7, package_extract_file("patch/system/app/Nfc/Nfc.apk.p")));
+set_progress(0.035047);
+assert(apply_patch("/system/app/PacProcessor/PacProcessor.apk", "-",
+       d78f74636fef5b08cf38fdbd06c75af9e33198bc, 5932,
+       d3ba110b706d677b04f225911ebcadbd28eb7139, package_extract_file("patch/system/app/PacProcessor/PacProcessor.apk.p")));
+set_progress(0.035117);
+assert(apply_patch("/system/app/PackageInstaller/PackageInstaller.apk",
+       "-", 3d848da794c19406d4b045b572ba5177fe0678e8, 499252,
+       4e83afc8bedcfc8569381d69563b24466bcbc511, package_extract_file("patch/system/app/PackageInstaller/PackageInstaller.apk.p")));
+set_progress(0.041003);
+assert(apply_patch("/system/app/PartnerBookmarksProvider/PartnerBookmarksProvider.apk",
+       "-", e0c96be2f9f87e567d84d5677b29b0e81f59812b, 21464,
+       450f86331d34bbd19e5e62955d43cb10abb5cd5b, package_extract_file("patch/system/app/PartnerBookmarksProvider/PartnerBookmarksProvider.apk.p")));
+set_progress(0.041256);
+assert(apply_patch("/system/app/PhotoTable/PhotoTable.apk", "-",
+       af094551d84e7a393cdd0f0334b89ac0ec9a3234, 472215,
+       4b2a73e95f1a2434eb5f52f3158348ce6db3eac4, package_extract_file("patch/system/app/PhotoTable/PhotoTable.apk.p")));
+set_progress(0.046822);
+assert(apply_patch("/system/app/PrintSpooler/PrintSpooler.apk", "-",
+       59d24e7278dff616ae7b101f1ad461d45a100c68, 518802,
+       0dc25c84531fd91942140d2e16142ea4ae5b9be8, package_extract_file("patch/system/app/PrintSpooler/PrintSpooler.apk.p")));
+set_progress(0.052938);
+assert(apply_patch("/system/app/Stk/Stk.apk", "-",
+       4307945f6d52c60f19e1c52b2e60372f283536d6, 118233,
+       0a02cb1781088dac2275610658f5db09a63c6f16, package_extract_file("patch/system/app/Stk/Stk.apk.p")));
+set_progress(0.054332);
+assert(apply_patch("/system/app/TimeService/TimeService.apk", "-",
+       48d773f75c2c8cbadcb5e0ee350ccafc2f944963, 3827,
+       86d5932e043097eb976c426dab03f7d39636506e, package_extract_file("patch/system/app/TimeService/TimeService.apk.p")));
+set_progress(0.054377);
+assert(apply_patch("/system/app/UserDictionaryProvider/UserDictionaryProvider.apk",
+       "-", 436efb807ed33019f9965eff0290f6fb544027ca, 11375,
+       9d93c38353f65e8712ea6fe95a646a3d9942b5db, package_extract_file("patch/system/app/UserDictionaryProvider/UserDictionaryProvider.apk.p")));
+set_progress(0.054511);
+assert(apply_patch("/system/bin/asound", "-",
+       5986de3aa5f44e6d5acbbb2e4a22c812dfdfa824, 21796,
+       00e7dbdba2a552f4a17c095095869ff07f438041, package_extract_file("patch/system/bin/asound.p")));
+set_progress(0.054768);
+assert(apply_patch("/system/bin/bcc", "-",
+       3866f05c8e63cc21f23ec41d92638393bb854ad1, 17764,
+       7ac4ba7ea8b0fd9684ff9ce28ac512cf8f143e33, package_extract_file("patch/system/bin/bcc.p")));
+set_progress(0.054977);
+assert(apply_patch("/system/bin/debuggerd", "-",
+       4ba828527bbef504ac6707f0615fc08d09b9061c, 25876,
+       d4814b70e19cf4e5099a21032161a3595a595bab, package_extract_file("patch/system/bin/debuggerd.p")));
+set_progress(0.055282);
+assert(apply_patch("/system/bin/mdnsd", "-",
+       fe900e6834588d0a4061431fed72446f1b315d83, 407256,
+       e68cd1368062e9166e43bdf2613000e37232beb1, package_extract_file("patch/system/bin/mdnsd.p")));
+set_progress(0.060083);
+assert(apply_patch("/system/bin/ndc", "-",
+       9211a66223dbe6b27b2a09cfbe16172f7c10e90b, 9468,
+       9e62cfbcebfcb707cfd4a3bf028f93489f81d508, package_extract_file("patch/system/bin/ndc.p")));
+set_progress(0.060195);
+assert(apply_patch("/system/bin/netd", "-",
+       496ad894a65b18f11cdb048f67c08ee23a96331a, 124624,
+       e256cb18ab06ff8cee3318428825bdb75ab6e521, package_extract_file("patch/system/bin/netd.p")));
+set_progress(0.061664);
+assert(apply_patch("/system/etc/recovery-resource.dat", "-",
+       64bdafd0fc26240f524eea0a775512a981cc61ed, 452708,
+       0fd8ae2cc8e5a83a0538c1613fc07f2c69955b39, package_extract_file("patch/system/etc/recovery-resource.dat.p")));
+set_progress(0.067000);
+assert(apply_patch("/system/etc/security/cwcerts.zip", "-",
+       791bc09a3db8821b9de87f41690c2d2e498d840a, 1252,
+       f066ca829d0b08015c937514e81f5bfd2f381322, package_extract_file("patch/system/etc/security/cwcerts.zip.p")));
+set_progress(0.067015);
+assert(apply_patch("/system/etc/security/otacerts.zip", "-",
+       186982508108ebf8f23474ae9d15d00d28d845da, 1162,
+       c0c64d52c03b83515008d0d8e9e424fead39a33b, package_extract_file("patch/system/etc/security/otacerts.zip.p")));
+set_progress(0.067029);
+assert(apply_patch("/system/framework/am.jar", "-",
+       7ef708fa1a93dbe5647072112f12752a337a5193, 23082,
+       551373a9b8337277a7dc903997ed72e7a56d38cb, package_extract_file("patch/system/framework/am.jar.p")));
+set_progress(0.067301);
+assert(apply_patch("/system/framework/android.policy.jar", "-",
+       4401a1f017f1ea28649a5b602c05999b7cc4cc0b, 129494,
+       86feacba9ed6798c3ad85cad9da69ae359a9dc75, package_extract_file("patch/system/framework/android.policy.jar.p")));
+set_progress(0.068827);
+assert(apply_patch("/system/framework/android.test.runner.jar", "-",
+       00deca9d32af3a85c4d03d2666958af34fed5f26, 75658,
+       defd9255752ebe6c68897ef979e0aa994759e30c, package_extract_file("patch/system/framework/android.test.runner.jar.p")));
+set_progress(0.069719);
+assert(apply_patch("/system/framework/apache-xml.jar", "-",
+       4f40bd7c56f0aa33d50ab85fb37232cdaf90a697, 549493,
+       4475661ee38a63d022ba792ecb227ac4d1ec388f, package_extract_file("patch/system/framework/apache-xml.jar.p")));
+set_progress(0.076197);
+assert(apply_patch("/system/framework/appops.jar", "-",
+       815679f871ca6e5ac80efc17d84961a3319b1114, 4429,
+       1d58de29f7f8e36b2f0b5c03525c0fc8f17a35bb, package_extract_file("patch/system/framework/appops.jar.p")));
+set_progress(0.076249);
+assert(apply_patch("/system/framework/appwidget.jar", "-",
+       566191976a7a95ec302d0bdb79a49787fd6dc978, 3118,
+       b8d9b382b56b01c5302b98143c2f08696033ba29, package_extract_file("patch/system/framework/appwidget.jar.p")));
+set_progress(0.076286);
+assert(apply_patch("/system/framework/bmgr.jar", "-",
+       259ce8b1579721c15234fc90a1a710c969f9b57e, 6976,
+       6276d0cac98165bf93828f70a39e407216e1e7a1, package_extract_file("patch/system/framework/bmgr.jar.p")));
+set_progress(0.076368);
+assert(apply_patch("/system/framework/bouncycastle.jar", "-",
+       0f54d08a2312411312afc66d40a49b21882361a6, 439790,
+       8340ea846d6e1072caa7ca9be1f7342dcba6639c, package_extract_file("patch/system/framework/bouncycastle.jar.p")));
+set_progress(0.081552);
+assert(apply_patch("/system/framework/bu.jar", "-",
+       e7ae5d065765ce4d0b49553cbb96bdad5c3e4f48, 2820,
+       20cd3c22ee2fd1970adad77b900720e743027c4d, package_extract_file("patch/system/framework/bu.jar.p")));
+set_progress(0.081586);
+assert(apply_patch("/system/framework/com.android.future.usb.accessory.jar",
+       "-", dc2686dc7aa495739606e663de3be55b9fa3c68c, 2829,
+       71d089301b6d7b471199380459ff5e6f3de7c953, package_extract_file("patch/system/framework/com.android.future.usb.accessory.jar.p")));
+set_progress(0.081619);
+assert(apply_patch("/system/framework/com.android.location.provider.jar",
+       "-", 634b131f64592fa529658ea5f3bfeed6b0c1cf4f, 11534,
+       17a03eeea709920cd7d87fb0caea29276501c9aa, package_extract_file("patch/system/framework/com.android.location.provider.jar.p")));
+set_progress(0.081755);
+assert(apply_patch("/system/framework/com.android.media.remotedisplay.jar",
+       "-", cbb12d77802c9c2942b8425714295bc335efeb04, 4570,
+       4d1c87817f4c43a221eee3a9befeb33bb2fbc4fe, package_extract_file("patch/system/framework/com.android.media.remotedisplay.jar.p")));
+set_progress(0.081809);
+assert(apply_patch("/system/framework/com.android.mediadrm.signer.jar",
+       "-", d7937ec8667205394f82b7d83c27f31e5c1a29ec, 1747,
+       619cdc07efdcaf8eb01092b74a5f4b892ab986e3, package_extract_file("patch/system/framework/com.android.mediadrm.signer.jar.p")));
+set_progress(0.081829);
+assert(apply_patch("/system/framework/com.android.nfc_extras.jar", "-",
+       272dc898958b88dd9d0d0410061171ac23516b20, 5183,
+       785e0fb01b4389e89de97f1ab6ba9d0c7efc4612, package_extract_file("patch/system/framework/com.android.nfc_extras.jar.p")));
+set_progress(0.081890);
+assert(apply_patch("/system/framework/com.google.widevine.software.drm.jar",
+       "-", a3c4883181d54a33afb24cbf292cd4d5a6378a33, 736,
+       7045056dfa176cc2f8b9d23ffb919d3e6a8078cd, package_extract_file("patch/system/framework/com.google.widevine.software.drm.jar.p")));
+set_progress(0.081899);
+assert(apply_patch("/system/framework/conscrypt.jar", "-",
+       8c8a3e13c675e9d1a899fa346b0f1aaeee191fa3, 115895,
+       d1b09a15a610b76739ee2ffeb6f370983ce74ada, package_extract_file("patch/system/framework/conscrypt.jar.p")));
+set_progress(0.083265);
+assert(apply_patch("/system/framework/content.jar", "-",
+       7a65647c2aebbe469ef7b95ced7a09fc7fc565de, 8502,
+       bb175d08c4a87e33d88873119f21c9317bcc6ee7, package_extract_file("patch/system/framework/content.jar.p")));
+set_progress(0.083366);
+assert(apply_patch("/system/framework/core-junit.jar", "-",
+       e76c31f825ea9783b1cb359a2951a1601b92b4f1, 11717,
+       4ea4a394c6ad5a0b1dd7b7b55a6423af1550c726, package_extract_file("patch/system/framework/core-junit.jar.p")));
+set_progress(0.083504);
+assert(apply_patch("/system/framework/core-libart.jar", "-",
+       d92ac47deebb1aaaa6365b0030cd6a1a4ab4839b, 1260510,
+       4a70a2ce64a6327f848a6db3962e7f719dd8bd2d, package_extract_file("patch/system/framework/core-libart.jar.p")));
+set_progress(0.098363);
+assert(apply_patch("/system/framework/dpm.jar", "-",
+       8ac0d8923d88bc0258eda9c88ff39d84783c5b37, 3111,
+       93ee18fb20078794e583ed5397fb17356ab1f4b6, package_extract_file("patch/system/framework/dpm.jar.p")));
+set_progress(0.098400);
+assert(apply_patch("/system/framework/ethernet-service.jar", "-",
+       0ff1b287022313830b440c81138400956cbe86dc, 9981,
+       37c5bbb6ad3203da0496f67a57467380cd831eeb, package_extract_file("patch/system/framework/ethernet-service.jar.p")));
+set_progress(0.098517);
+assert(apply_patch("/system/framework/ext.jar", "-",
+       80495741ae0b8980184c96222a628637b34fbb3a, 2151030,
+       b4d00ce0c4309c02382dbdc04a7e1b205e6eec78, package_extract_file("patch/system/framework/ext.jar.p")));
+set_progress(0.123874);
+assert(apply_patch("/system/framework/framework-res.apk", "-",
+       e7666479fb08775436b7c7f31a9feb7a053ef4f9, 15890937,
+       bbfb369e4d0f849540cf573fe8b490929c13981b, package_extract_file("patch/system/framework/framework-res.apk.p")));
+set_progress(0.311200);
+assert(apply_patch("/system/framework/framework.jar", "-",
+       a3dacebbcab3b0d3392b8d2012f5690c5c99a9eb, 5375214,
+       1e26450ca1f42398d30be92a7763210196f962a2, package_extract_file("patch/system/framework/framework.jar.p")));
+set_progress(0.374564);
+assert(apply_patch("/system/framework/htcirlibs.jar", "-",
+       0bb84d635d78b2d87a155dd2e5b38d6370ed6c96, 6923,
+       d9aa6e23291bc653d6167551fb2bc953071b180c, package_extract_file("patch/system/framework/htcirlibs.jar.p")));
+set_progress(0.374646);
+assert(apply_patch("/system/framework/ime.jar", "-",
+       f897e1ee0341cd184d00d51a3461a6a811298123, 3369,
+       2f774c14aec96135907be4f182cd4f14937447a9, package_extract_file("patch/system/framework/ime.jar.p")));
+set_progress(0.374685);
+assert(apply_patch("/system/framework/ims-common.jar", "-",
+       43d71b126ef5cd77b2f81b5d9d9e5f316161dc1c, 33931,
+       87bedad8fcde6ef0447dab5ad8a9f440a2a61bef, package_extract_file("patch/system/framework/ims-common.jar.p")));
+set_progress(0.375085);
+assert(apply_patch("/system/framework/input.jar", "-",
+       5c734d288cbd48012b662dc860ec6540708cf07f, 4699,
+       fda73ab9ab1cbf03b5bc80bff4cf9e00e8c6e7f5, package_extract_file("patch/system/framework/input.jar.p")));
+set_progress(0.375141);
+assert(apply_patch("/system/framework/javax.obex.jar", "-",
+       64552967cd5d28df2dfbda20975416bdff00629c, 25970,
+       962fdbeedaa241dcb7f7eb913a51e0ab67bc2043, package_extract_file("patch/system/framework/javax.obex.jar.p")));
+set_progress(0.375447);
+assert(apply_patch("/system/framework/media_cmd.jar", "-",
+       9ae8667ec93c55b57a82030d4f2961ea18caa73d, 5407,
+       eca60cef606c9e4b4fe8929cd54faae78e7bc67b, package_extract_file("patch/system/framework/media_cmd.jar.p")));
+set_progress(0.375511);
+assert(apply_patch("/system/framework/mms-common.jar", "-",
+       04096acdd17f8cde1b276e97ff812b05912b5b71, 698,
+       eb61218be25ca7b75ebb32f583e2454055553d1d, package_extract_file("patch/system/framework/mms-common.jar.p")));
+set_progress(0.375519);
+assert(apply_patch("/system/framework/monkey.jar", "-",
+       6858cae16f778721ee154bedd9f01c784ad99efc, 49199,
+       34b370a56a73474d93ae6d09e3316fd28b664bd7, package_extract_file("patch/system/framework/monkey.jar.p")));
+set_progress(0.376099);
+assert(apply_patch("/system/framework/okhttp.jar", "-",
+       3451965becb3c807dc1671b709b7de1f90fd2ed2, 134311,
+       9b328435bac9f2cf9671f7cf951beeb23b911fe5, package_extract_file("patch/system/framework/okhttp.jar.p")));
+set_progress(0.377682);
+assert(apply_patch("/system/framework/pm.jar", "-",
+       fd4a996367c6d7073f04f0f9371b73f92290c974, 21222,
+       4491d4816ab3896705f464eda5804a7f7e440d2d, package_extract_file("patch/system/framework/pm.jar.p")));
+set_progress(0.377932);
+assert(apply_patch("/system/framework/requestsync.jar", "-",
+       f564830ee154d27f89379d22e995933d7eab6411, 4243,
+       b8749eba28f30c5dd89a37ae6fd363448b5d1eae, package_extract_file("patch/system/framework/requestsync.jar.p")));
+set_progress(0.377982);
+assert(apply_patch("/system/framework/settings.jar", "-",
+       320a1eede250bd8a92af42f65b4997bbd1ea0fc0, 4532,
+       f5b637a4d8c771e6147a6979720e8c144a84e8e2, package_extract_file("patch/system/framework/settings.jar.p")));
+set_progress(0.378036);
+assert(apply_patch("/system/framework/svc.jar", "-",
+       156105a64764afa965207e4fecdb8a3ed4a11205, 4364,
+       21f75507153e91ee0ed9ec80c230367462fb3586, package_extract_file("patch/system/framework/svc.jar.p")));
+set_progress(0.378087);
+assert(apply_patch("/system/framework/telephony-common.jar", "-",
+       287e4a51097f8fd5dcac1d43b05d89838e2e75ea, 705579,
+       224be3ca7130663048f5f149e3748cec918132a1, package_extract_file("patch/system/framework/telephony-common.jar.p")));
+set_progress(0.386405);
+assert(apply_patch("/system/framework/uiautomator.jar", "-",
+       af97402f601da378faa8f5af9ec3ad56fcd765d7, 46617,
+       c3f2c900e8d774f82c5e14e90212dde4691b8a74, package_extract_file("patch/system/framework/uiautomator.jar.p")));
+set_progress(0.386954);
+assert(apply_patch("/system/framework/voip-common.jar", "-",
+       9d1e87a152a3db063f33583e712b991182bf51d5, 68093,
+       f6b2e5840cb12c242602bcdbcbaa26df0aa18226, package_extract_file("patch/system/framework/voip-common.jar.p")));
+set_progress(0.387757);
+assert(apply_patch("/system/framework/wifi-service.jar", "-",
+       0882225a9e06a2f925edd2ddf77272992389ce53, 256960,
+       4d3d7be793da502df97f249bdb4a45c1024a74fa, package_extract_file("patch/system/framework/wifi-service.jar.p")));
+set_progress(0.390786);
+assert(apply_patch("/system/framework/wm.jar", "-",
+       f25f162b989199e99ae8c478b8cadcd986afcf03, 3407,
+       f9369b4d182bca881175624387d835c951b1d291, package_extract_file("patch/system/framework/wm.jar.p")));
+set_progress(0.390826);
+assert(apply_patch("/system/lib/hw/audio.primary.msm8974.so", "-",
+       8f8b2b86505e3860f093e4c50881480f71db52c4, 298444,
+       db2ad5de93287a9d639213e6cb84ef3c5dbd69fd, package_extract_file("patch/system/lib/hw/audio.primary.msm8974.so.p")));
+set_progress(0.394344);
+assert(apply_patch("/system/lib/libLLVM.so", "-",
+       409fe751aef74bc12f234b344cd5a6dd61d99a19, 9661576,
+       9a11476e19717273d74b5b1b6e9e4d98d4b48828, package_extract_file("patch/system/lib/libLLVM.so.p")));
+set_progress(0.508237);
+assert(apply_patch("/system/lib/libRS.so", "-",
+       329576e8e756ac1c249354686bac65e530d7c7fc, 243728,
+       df7e4eb97a0c530f325a0cf4badd05026d3c5f7f, package_extract_file("patch/system/lib/libRS.so.p")));
+set_progress(0.511110);
+assert(apply_patch("/system/lib/libRSCpuRef.so", "-",
+       b2147c16543c184f6a1a54b04b2239ce2a80fe11, 178304,
+       93ac7da9890f4482e55e0a946e71211063f0086a, package_extract_file("patch/system/lib/libRSCpuRef.so.p")));
+set_progress(0.513212);
+assert(apply_patch("/system/lib/libRSDriver.so", "-",
+       c194317af6370d4ca8f678ddcf6e5eb9a63b915d, 173724,
+       13e5a3128252472d77ea5c678a91feef7d0b01d6, package_extract_file("patch/system/lib/libRSDriver.so.p")));
+set_progress(0.515260);
+assert(apply_patch("/system/lib/libRScpp.so", "-",
+       02458a9e50792055cc0ef40a568cef0dec534559, 116032,
+       59826ac9d8837fa4cf8dec44d6bf4fdf8f9278a5, package_extract_file("patch/system/lib/libRScpp.so.p")));
+set_progress(0.516628);
+assert(apply_patch("/system/lib/libbcc.so", "-",
+       b59773d6975f8d27753dca007c4612ef9ba02f4f, 144840,
+       8fb7188f10de4be37a725eecb5065f647662d17c, package_extract_file("patch/system/lib/libbcc.so.p")));
+set_progress(0.518335);
+assert(apply_patch("/system/lib/libbcinfo.so", "-",
+       d6aa5773aeb5e3bae35dc4cdb3a21379a7596014, 242992,
+       c78c5ae49f1bd26dea395884706f02b1b85f327c, package_extract_file("patch/system/lib/libbcinfo.so.p")));
+set_progress(0.521199);
+assert(apply_patch("/system/lib/libc++.so", "-",
+       80c8de8725c84c5112556db20bd50fbdfdcc1ea1, 599408,
+       d93b833dfbd435f2f8881017aff9c4537d274f7e, package_extract_file("patch/system/lib/libc++.so.p")));
+set_progress(0.528265);
+assert(apply_patch("/system/lib/libcamera_client.so", "-",
+       bc4c713db2ef4c0ade221d28888451cf76792388, 255280,
+       68bbd853236439aa60023ce3c8d5cdd7ed13c3f9, package_extract_file("patch/system/lib/libcamera_client.so.p")));
+set_progress(0.531275);
+assert(apply_patch("/system/lib/libcrypto.so", "-",
+       8140ce6c6740c5e7d92708ccae8cb1ead61ae3ba, 1052908,
+       0dfd6336a0679d922d1e73cf2ce4e1efc7a5500f, package_extract_file("patch/system/lib/libcrypto.so.p")));
+set_progress(0.543687);
+assert(apply_patch("/system/lib/libexif.so", "-",
+       e9bed055f90e973f5a1a5bb3fb06774fffbaf161, 173256,
+       af29fe6edf889090685b5244ec770829cdc7f46a, package_extract_file("patch/system/lib/libexif.so.p")));
+set_progress(0.545729);
+assert(apply_patch("/system/lib/libmdnssd.so", "-",
+       8e1b261d1185fe4c7c2d18f364ad68b4a3de7e70, 21612,
+       c8a66adb3fe30967ad7461ce6b8abd973d7d9124, package_extract_file("patch/system/lib/libmdnssd.so.p")));
+set_progress(0.545984);
+assert(apply_patch("/system/lib/libnativebridge.so", "-",
+       62d2f14433eaaaea8689b0fafc571e0dae6f83c5, 9464,
+       3973812a05bd0b780e446611c35a8c7660b1a5f1, package_extract_file("patch/system/lib/libnativebridge.so.p")));
+set_progress(0.546095);
+assert(apply_patch("/system/lib/libnativehelper.so", "-",
+       cb7ebf028309ff9773042c97a345b707fd3c2ddc, 21696,
+       63f23001bbf9a610950e865bc141a82f6158013e, package_extract_file("patch/system/lib/libnativehelper.so.p")));
+set_progress(0.546351);
+assert(apply_patch("/system/lib/libnetd_client.so", "-",
+       03926287b6a32276b485225eecfb645e37da980d, 9352,
+       fef6e6d0ad555ffd0ddc52082caecd8f27a48e15, package_extract_file("patch/system/lib/libnetd_client.so.p")));
+set_progress(0.546461);
+assert(apply_patch("/system/lib/libpac.so", "-",
+       a6fe4525799499e648dcd84c4b010268530de29f, 4124804,
+       8b3f17ed873689577f3cf1c0ccd2e6c417cbc3b4, package_extract_file("patch/system/lib/libpac.so.p")));
+set_progress(0.595085);
+assert(apply_patch("/system/lib/libpng.so", "-",
+       8a5ad95070cc9626a816bfa8a7738873bb96256a, 156812,
+       b91ff5df30ba5aee1f3ac9ef259cbf05f8fa7955, package_extract_file("patch/system/lib/libpng.so.p")));
+set_progress(0.596934);
+assert(apply_patch("/system/lib/libsrsprocessing.so", "-",
+       7b3266891b528dcd8f0e966a9958e6b02f7fa798, 728288,
+       0e17ce91e9a548601b00e8199d8b4c60b5095d20, package_extract_file("patch/system/lib/libsrsprocessing.so.p")));
+set_progress(0.605519);
+assert(apply_patch("/system/lib/libssl.so", "-",
+       5b2e155e3b3e5c566806621e4f14f1e24f27a049, 261992,
+       f7d5de172a54c61908bdd05ae008e0b130353e9d, package_extract_file("patch/system/lib/libssl.so.p")));
+set_progress(0.608608);
+assert(apply_patch("/system/lib/libstagefright_soft_aacdec.so", "-",
+       ee35befff51637dc80f3f3af864aa213ddc6e961, 247220,
+       aaed83ec05657a36bca634710d746957dad78e64, package_extract_file("patch/system/lib/libstagefright_soft_aacdec.so.p")));
+set_progress(0.611522);
+assert(apply_patch("/system/lib/libstagefright_soft_aacenc.so", "-",
+       9d4216f19610dd364f2aa1056c5f812dea9c7bef, 287924,
+       838af4c6dfff712258d5681ef51d03b8825896fe, package_extract_file("patch/system/lib/libstagefright_soft_aacenc.so.p")));
+set_progress(0.614916);
+assert(apply_patch("/system/lib/libstagefright_soft_hevcdec.so", "-",
+       de10a4e618526fa7346c1b8696e4ebc2ead3c3a6, 464480,
+       83b78cd5aeef1ff137f27b056011c1f01fc5d93b, package_extract_file("patch/system/lib/libstagefright_soft_hevcdec.so.p")));
+set_progress(0.620391);
+assert(apply_patch("/system/lib/libsurfaceflinger.so", "-",
+       43ff376f2bfe312f973616df14fa63cfc06dbab3, 218532,
+       219ae14adebb8a987a9ab6bc70ec6eecd6396c20, package_extract_file("patch/system/lib/libsurfaceflinger.so.p")));
+set_progress(0.622967);
+assert(apply_patch("/system/lib/libwebrtc_audio_preprocessing.so", "-",
+       0454736b32357c296208ca37decf52b7e9e1858f, 390432,
+       a6091a5e980ac73ece6b92ec424e45ea5c52057c, package_extract_file("patch/system/lib/libwebrtc_audio_preprocessing.so.p")));
+set_progress(0.627570);
+assert(apply_patch("/system/lib/modules/a8293.ko", "-",
+       e956184820a591dd233534d5fc752d5e2a889647, 5516,
+       997811c057dc13c4c2312a960ed93e6c1da418fb, package_extract_file("patch/system/lib/modules/a8293.ko.p")));
+set_progress(0.627635);
+assert(apply_patch("/system/lib/modules/adsprpc.ko", "-",
+       a8c11b98f72d994cdbaf0ceaaf661578ba0878a2, 21736,
+       ac5e7c62a5fec94a2b9aad5d90ff45c7cf4a39a3, package_extract_file("patch/system/lib/modules/adsprpc.ko.p")));
+set_progress(0.627891);
+assert(apply_patch("/system/lib/modules/af9013.ko", "-",
+       30700d65aa4d4eeac0fda0ae26027b6a2be925d8, 23756,
+       97576d2005c56369e82946a7140c920aa5da327c, package_extract_file("patch/system/lib/modules/af9013.ko.p")));
+set_progress(0.628171);
+assert(apply_patch("/system/lib/modules/ansi_cprng.ko", "-",
+       f5b97841f02449f47741dd6ba8e9ebe7b33400a2, 8632,
+       73d163dbff55f607ba3cd502b0be87e490fe57df, package_extract_file("patch/system/lib/modules/ansi_cprng.ko.p")));
+set_progress(0.628273);
+assert(apply_patch("/system/lib/modules/atbm8830.ko", "-",
+       1f8c2761fade712dedb7a0759359ea15d966c9f3, 10716,
+       d04c2852a78732dfa8b145a4fa3c74618195d44c, package_extract_file("patch/system/lib/modules/atbm8830.ko.p")));
+set_progress(0.628399);
+assert(apply_patch("/system/lib/modules/au8522.ko", "-",
+       7de9fd5756e7dc7cef4a146167ce435a4c8dcca6, 24196,
+       f0ae0c61988329008c5a456c4da88a4278e76010, package_extract_file("patch/system/lib/modules/au8522.ko.p")));
+set_progress(0.628684);
+assert(apply_patch("/system/lib/modules/bcm3510.ko", "-",
+       051891b1af8674568f9a9e8d0a50fdd03a932063, 13860,
+       e2a9ef607ea8df13517c99e36432a184a5acb47b, package_extract_file("patch/system/lib/modules/bcm3510.ko.p")));
+set_progress(0.628848);
+assert(apply_patch("/system/lib/modules/commkm.ko", "-",
+       7a09f312bdfd8258ef2610655185259eae6bf532, 43060,
+       6a65bf091cbd1b2f67976245d4091fde6b20284f, package_extract_file("patch/system/lib/modules/commkm.ko.p")));
+set_progress(0.629355);
+assert(apply_patch("/system/lib/modules/cx22700.ko", "-",
+       741f3cfb74ae998f15b7fdd1476d5a564c3b30fd, 8580,
+       590021458e92bb39bdccbf67901eb84a55c3a351, package_extract_file("patch/system/lib/modules/cx22700.ko.p")));
+set_progress(0.629457);
+assert(apply_patch("/system/lib/modules/cx22702.ko", "-",
+       6ab284e9f5d64c4b91d55ff9a22dfe60befd91fe, 8800,
+       483bb7ef34bb2784a065210d4acc2815402e4592, package_extract_file("patch/system/lib/modules/cx22702.ko.p")));
+set_progress(0.629560);
+assert(apply_patch("/system/lib/modules/cx24110.ko", "-",
+       f9db90e4bdbb8cb7162d263cf606f697e95700cf, 10544,
+       85b4f6fc316045a4eeb0153d59de4f9f58900962, package_extract_file("patch/system/lib/modules/cx24110.ko.p")));
+set_progress(0.629685);
+assert(apply_patch("/system/lib/modules/cx24113.ko", "-",
+       f8adadd02f43a3cd9cd4f17231e8db62ae95b134, 11212,
+       49f5fa28ab85344b65b5efc869bf8fbefc779115, package_extract_file("patch/system/lib/modules/cx24113.ko.p")));
+set_progress(0.629817);
+assert(apply_patch("/system/lib/modules/cx24116.ko", "-",
+       458b3861e53eeefe50818d59e050f1dc975cd98e, 20664,
+       1e2635aa21568ec4ffe97d3f23cf3eb0b1a9c289, package_extract_file("patch/system/lib/modules/cx24116.ko.p")));
+set_progress(0.630060);
+assert(apply_patch("/system/lib/modules/cx24123.ko", "-",
+       aa44fc57e7e49ad322d09f00d53ed97bed6cf074, 19056,
+       39a66baf7518788993912432c2030fdf8c98d62c, package_extract_file("patch/system/lib/modules/cx24123.ko.p")));
+set_progress(0.630285);
+assert(apply_patch("/system/lib/modules/cxd2820r.ko", "-",
+       fad5e5163993826df4dbb3d32417f6f2de96acea, 26176,
+       4aa6da3c667704b37ef67c178a4119d2da336933, package_extract_file("patch/system/lib/modules/cxd2820r.ko.p")));
+set_progress(0.630594);
+assert(apply_patch("/system/lib/modules/dib0070.ko", "-",
+       cfbe5d9ccb63c9f946a9cf708ea28742848dd67d, 13308,
+       485af3221414ea480b1097ff4a5fd4d4431d83fa, package_extract_file("patch/system/lib/modules/dib0070.ko.p")));
+set_progress(0.630751);
+assert(apply_patch("/system/lib/modules/dib0090.ko", "-",
+       587fa390867e3defd696b1e4f37f5a05d81395d7, 34108,
+       fa4617e80e31f43b80b32941b9411c1401a3abb8, package_extract_file("patch/system/lib/modules/dib0090.ko.p")));
+set_progress(0.631153);
+assert(apply_patch("/system/lib/modules/dib3000mb.ko", "-",
+       61d99ea5ac17df840ba51bdd9f2604ccef7353b2, 20716,
+       8baf0f152ca8d2574934d5b2c960b59a5293fb62, package_extract_file("patch/system/lib/modules/dib3000mb.ko.p")));
+set_progress(0.631397);
+assert(apply_patch("/system/lib/modules/dib3000mc.ko", "-",
+       2f9ff290b5c8dc76237b22d674fe4db4962d8f10, 16632,
+       317d66a22bc1b2735a7b9af048f25ae469c72490, package_extract_file("patch/system/lib/modules/dib3000mc.ko.p")));
+set_progress(0.631593);
+assert(apply_patch("/system/lib/modules/dib7000m.ko", "-",
+       d5e5f11cda2d126e405ee76b83ccfdfa3e5ab963, 20316,
+       77a8354c36c8aa46c7fc41f5b383a665fe909d0b, package_extract_file("patch/system/lib/modules/dib7000m.ko.p")));
+set_progress(0.631832);
+assert(apply_patch("/system/lib/modules/dib7000p.ko", "-",
+       db95542d2a4e6c74e969e7696b3edf96ae3d1997, 36696,
+       6cc4e91c03760e1ed9dfd72f44d3ae7c3078d91b, package_extract_file("patch/system/lib/modules/dib7000p.ko.p")));
+set_progress(0.632265);
+assert(apply_patch("/system/lib/modules/dib8000.ko", "-",
+       166c52b8a97de172990e9f5dfa5e6bfa06142e30, 51328,
+       20c5683100639260836cbec1410dea05cff2e089, package_extract_file("patch/system/lib/modules/dib8000.ko.p")));
+set_progress(0.632870);
+assert(apply_patch("/system/lib/modules/dib9000.ko", "-",
+       f895fd99480c472c4ee79037e967b9a1707e6a91, 39784,
+       a088130aa2fa052a482daf8234d35c3c5e34994b, package_extract_file("patch/system/lib/modules/dib9000.ko.p")));
+set_progress(0.633339);
+assert(apply_patch("/system/lib/modules/dibx000_common.ko", "-",
+       3da32178c533a8134e0443db1e70fd943c8feec8, 13012,
+       7b4c13bdbb5685041fb6152db79c2c8a6c64ff78, package_extract_file("patch/system/lib/modules/dibx000_common.ko.p")));
+set_progress(0.633492);
+assert(apply_patch("/system/lib/modules/dm-crypt.ko", "-",
+       05b3f0ffc086c633e31b96da100c7599594ab775, 26652,
+       e49f0e6565fb689cedefc8d08933ca0d8b8245d4, package_extract_file("patch/system/lib/modules/dm-crypt.ko.p")));
+set_progress(0.633807);
+assert(apply_patch("/system/lib/modules/dma_test.ko", "-",
+       b66f07a31f6b6aaa0386ce99215841c89ee89270, 7984,
+       d44e6f5d156729e6649b3bbf8700ca815f52d35f, package_extract_file("patch/system/lib/modules/dma_test.ko.p")));
+set_progress(0.633901);
+assert(apply_patch("/system/lib/modules/drxd.ko", "-",
+       5a0671990b942a214f00aa09e32dd33ff2e07952, 25880,
+       e33f34d439810a30341509191b839d904a0011fa, package_extract_file("patch/system/lib/modules/drxd.ko.p")));
+set_progress(0.634206);
+assert(apply_patch("/system/lib/modules/drxk.ko", "-",
+       39120daad9366abffc03cb7c36e97e765d5a7967, 55036,
+       a5b319a90cd57da30f76e3ca6d9a218334bf0cd7, package_extract_file("patch/system/lib/modules/drxk.ko.p")));
+set_progress(0.634854);
+assert(apply_patch("/system/lib/modules/ds3000.ko", "-",
+       89d63e91abc41b8437a3753d809eb74c43fb321d, 17540,
+       dbc9d5df6dc455c93c7ddb5c9620b172bb05d7f0, package_extract_file("patch/system/lib/modules/ds3000.ko.p")));
+set_progress(0.635061);
+assert(apply_patch("/system/lib/modules/dvb-core.ko", "-",
+       e7868a2507dd3af7d33de9aaa8bdd497b260e673, 172832,
+       1b43891cf69b321cc3852fffb7783f9131b76832, package_extract_file("patch/system/lib/modules/dvb-core.ko.p")));
+set_progress(0.637099);
+assert(apply_patch("/system/lib/modules/dvb-pll.ko", "-",
+       2ec7ff7b945e1ad260e87a4708d64919459e445a, 13912,
+       37ab03587b11404f57d26b74dc01840ebcbcc30f, package_extract_file("patch/system/lib/modules/dvb-pll.ko.p")));
+set_progress(0.637263);
+assert(apply_patch("/system/lib/modules/ec100.ko", "-",
+       ab6326a76e61fbfab2f2b5f119c79567654bffb8, 7392,
+       f911bfa0d356bf7a51e585dcc30891b77eeb5e14, package_extract_file("patch/system/lib/modules/ec100.ko.p")));
+set_progress(0.637350);
+assert(apply_patch("/system/lib/modules/ecryptfs.ko", "-",
+       dccfca839fdf95a4b16e409b0b0b10d48e658582, 129608,
+       23f34799d6c9fc7f36bb04d0919c091e8a8e3e83, package_extract_file("patch/system/lib/modules/ecryptfs.ko.p")));
+set_progress(0.638878);
+assert(apply_patch("/system/lib/modules/eeprom_93cx6.ko", "-",
+       9e1ef6392b1d78a5ab96f90bec4c2054e0de213d, 6068,
+       bfb64e534e7d181c1897a8c483101bf84fde8ea0, package_extract_file("patch/system/lib/modules/eeprom_93cx6.ko.p")));
+set_progress(0.638949);
+assert(apply_patch("/system/lib/modules/evbug.ko", "-",
+       399103c1c1836bcbfc722db26add09c1c6659242, 6060,
+       cb2dd312734c6ff012613131fa960bd2c86c20a8, package_extract_file("patch/system/lib/modules/evbug.ko.p")));
+set_progress(0.639021);
+assert(apply_patch("/system/lib/modules/gspca_main.ko", "-",
+       84ae4065e5a088a86cf8db01c94dd763e2f455b3, 30512,
+       2afaa311db338a550ec7475b78f4c888e7dcd500, package_extract_file("patch/system/lib/modules/gspca_main.ko.p")));
+set_progress(0.639380);
+assert(apply_patch("/system/lib/modules/hd29l2.ko", "-",
+       ce38506e815799427cd1c8edb7d94588dbb55684, 14056,
+       bce005c6ad75371f545a3e75aeb270ee3318200e, package_extract_file("patch/system/lib/modules/hd29l2.ko.p")));
+set_progress(0.639546);
+assert(apply_patch("/system/lib/modules/isl6405.ko", "-",
+       8a3a72227ba7e38de3e8261c70ee0387df02cbee, 4140,
+       d45b4c558976615e3681aa7a70b5456ba708ace8, package_extract_file("patch/system/lib/modules/isl6405.ko.p")));
+set_progress(0.639595);
+assert(apply_patch("/system/lib/modules/isl6421.ko", "-",
+       9128755f193db0c6dd0d1435e8294fda7735d19c, 4064,
+       e2bf8a012d50711aa9ef9728077bc913e8641648, package_extract_file("patch/system/lib/modules/isl6421.ko.p")));
+set_progress(0.639643);
+assert(apply_patch("/system/lib/modules/isl6423.ko", "-",
+       b4a9dbaba257a5e2e5982a9c37ecdee6dc98ae40, 5856,
+       365feabade3dd68f4ccc25e9f73e1f8bd66fe1f5, package_extract_file("patch/system/lib/modules/isl6423.ko.p")));
+set_progress(0.639712);
+assert(apply_patch("/system/lib/modules/it913x-fe.ko", "-",
+       479a9cbfca7da9b17e980800b68db67626eb2218, 35472,
+       5a178bf2942383733b0b9eb17da46860a1d4fa3e, package_extract_file("patch/system/lib/modules/it913x-fe.ko.p")));
+set_progress(0.640130);
+assert(apply_patch("/system/lib/modules/itd1000.ko", "-",
+       20089ee074213ad421e50d3e3c084e1555f91ba9, 8488,
+       0dc534a6cc472482796afd6ea4af51886a970f37, package_extract_file("patch/system/lib/modules/itd1000.ko.p")));
+set_progress(0.640230);
+assert(apply_patch("/system/lib/modules/ix2505v.ko", "-",
+       43e71c65ae5715d7c4ea1230e99306281e7f9686, 7000,
+       7e84a2d118b3081747a07c3a4516d7a343314fbd, package_extract_file("patch/system/lib/modules/ix2505v.ko.p")));
+set_progress(0.640312);
+assert(apply_patch("/system/lib/modules/ks8851.ko", "-",
+       97d11ad24aa99d92020aed411ac188de190a4672, 24788,
+       2363e45dd49c964c7e8cbaf2dfd46551063ee677, package_extract_file("patch/system/lib/modules/ks8851.ko.p")));
+set_progress(0.640605);
+assert(apply_patch("/system/lib/modules/l64781.ko", "-",
+       1735af4a45dff27843068077ac3a89b7846fde98, 9692,
+       10ad09bce2d09890be865561b8d0d0e071d961f9, package_extract_file("patch/system/lib/modules/l64781.ko.p")));
+set_progress(0.640719);
+assert(apply_patch("/system/lib/modules/lgdt3305.ko", "-",
+       5da07bdeb29b781bf84fe39e75d49f3d60e5dda2, 19448,
+       3b4a6181e7c4c07f04fc00a27928256d84521f8f, package_extract_file("patch/system/lib/modules/lgdt3305.ko.p")));
+set_progress(0.640948);
+assert(apply_patch("/system/lib/modules/lgdt330x.ko", "-",
+       ebb3c67e7434e80200d81d9ec9e56b2a04848ab2, 12224,
+       7ee84231bf42c85b222e72a3e02885a8c7682b07, package_extract_file("patch/system/lib/modules/lgdt330x.ko.p")));
+set_progress(0.641092);
+assert(apply_patch("/system/lib/modules/lgs8gl5.ko", "-",
+       b5ff10be9225b0d5abb03e3b042cec1b1a684da4, 8468,
+       3051831e6d7ea0c223ddb482c280a8ce818336bd, package_extract_file("patch/system/lib/modules/lgs8gl5.ko.p")));
+set_progress(0.641192);
+assert(apply_patch("/system/lib/modules/lgs8gxx.ko", "-",
+       1ecf6cdfe6d9d290fc0c926edfd4a8d8b153ddde, 16196,
+       3f0a9a4b40f208ae389bc73b8f7d5f397189f223, package_extract_file("patch/system/lib/modules/lgs8gxx.ko.p")));
+set_progress(0.641383);
+assert(apply_patch("/system/lib/modules/lnbp21.ko", "-",
+       c514527a6f5acb9059e8e577105b1ff14b0fbe6d, 5044,
+       6af8a6c8665e3eaa6ca01b764c76b717a3f013f0, package_extract_file("patch/system/lib/modules/lnbp21.ko.p")));
+set_progress(0.641442);
+assert(apply_patch("/system/lib/modules/lnbp22.ko", "-",
+       aa47e0b9c1c8f7a9f5689b5a117c32ff60a918d3, 5460,
+       9291765c532b26cbd6d3e9b477496d6c8349d9cc, package_extract_file("patch/system/lib/modules/lnbp22.ko.p")));
+set_progress(0.641507);
+assert(apply_patch("/system/lib/modules/m88rs2000.ko", "-",
+       ded6b89a92fe7b820695f3b7ec01ff0abb10e5bd, 12916,
+       5bb83c8521571b827bc30ed15e95a97897cb6beb, package_extract_file("patch/system/lib/modules/m88rs2000.ko.p")));
+set_progress(0.641659);
+assert(apply_patch("/system/lib/modules/max2165.ko", "-",
+       25d49a10745c851039b43c82891ef15adba31082, 10128,
+       9710a8e91cbf31f074a19b4ae66571734ddd17f7, package_extract_file("patch/system/lib/modules/max2165.ko.p")));
+set_progress(0.641778);
+assert(apply_patch("/system/lib/modules/mb86a16.ko", "-",
+       716d9e1c200436684980efd0f5e4af15701b9892, 24224,
+       c596744c061eeaff8030906ddb10cfdacac55796, package_extract_file("patch/system/lib/modules/mb86a16.ko.p")));
+set_progress(0.642064);
+assert(apply_patch("/system/lib/modules/mb86a20s.ko", "-",
+       3bb364df3de33715cf9bc18844deebc5baa87390, 10956,
+       a93fa32830828871673a68edf79fdbe380689eba, package_extract_file("patch/system/lib/modules/mb86a20s.ko.p")));
+set_progress(0.642193);
+assert(apply_patch("/system/lib/modules/mc44s803.ko", "-",
+       6ab101d8630d5c1860bc9ce01b018316087d7ee5, 6016,
+       b22df3af5779b76ac512b9d912db2a7a8b721d8e, package_extract_file("patch/system/lib/modules/mc44s803.ko.p")));
+set_progress(0.642264);
+assert(apply_patch("/system/lib/modules/mcDrvModule.ko", "-",
+       ac5aa789e1a58a891758e22909482d60555c9c2b, 40500,
+       8ac177b202a3163e099eab903bff4f082f91bde6, package_extract_file("patch/system/lib/modules/mcDrvModule.ko.p")));
+set_progress(0.642742);
+assert(apply_patch("/system/lib/modules/mcKernelApi.ko", "-",
+       9d6c106cce373b3d0296f7d99fbdbf58ad5ba5fa, 20856,
+       dd492093f4484f119284869adf4ac53e1f587819, package_extract_file("patch/system/lib/modules/mcKernelApi.ko.p")));
+set_progress(0.642987);
+assert(apply_patch("/system/lib/modules/mpq-adapter.ko", "-",
+       d9f76595414bb00233717197730d6c4fa8d1519c, 20976,
+       a94fb418c161fe7512b692b8a6f7a97a208a3c00, package_extract_file("patch/system/lib/modules/mpq-adapter.ko.p")));
+set_progress(0.643235);
+assert(apply_patch("/system/lib/modules/mpq-dmx-hw-plugin.ko", "-",
+       f7d3a1a1993a8a606bbb7eb8aace8cc9d57cd846, 112368,
+       c0a07347cfbbc0643af2a9dfdbbf692cb03df628, package_extract_file("patch/system/lib/modules/mpq-dmx-hw-plugin.ko.p")));
+set_progress(0.644559);
+assert(apply_patch("/system/lib/modules/msm-buspm-dev.ko", "-",
+       15ca5ea8d6bb1ca360848109989cffbe65d788f2, 11004,
+       88f385bab107038a9dd77bfde0f077a49f144eda, package_extract_file("patch/system/lib/modules/msm-buspm-dev.ko.p")));
+set_progress(0.644689);
+assert(apply_patch("/system/lib/modules/mt2060.ko", "-",
+       b8ffdc316bde2c20d69a20901a38295c1d78e3cd, 8280,
+       380c8771b00fdf90241d1f25e6aca4609428369f, package_extract_file("patch/system/lib/modules/mt2060.ko.p")));
+set_progress(0.644787);
+assert(apply_patch("/system/lib/modules/mt2063.ko", "-",
+       82586b4f736a974128628a0a4ba15b7711a7c742, 20432,
+       1507039d96d3ab551231357d4020a6915ac0bd02, package_extract_file("patch/system/lib/modules/mt2063.ko.p")));
+set_progress(0.645027);
+assert(apply_patch("/system/lib/modules/mt20xx.ko", "-",
+       faba692852f6c8dcd9c1dca9c1d15777325895ab, 15840,
+       4dbec31b4069704946b9a1957c0aa12dd9da3935, package_extract_file("patch/system/lib/modules/mt20xx.ko.p")));
+set_progress(0.645214);
+assert(apply_patch("/system/lib/modules/mt2131.ko", "-",
+       27f849a52be4ac7cfc567f048816e005f5019238, 8876,
+       7f80522d1d70408963c31385362e36384d1cd46b, package_extract_file("patch/system/lib/modules/mt2131.ko.p")));
+set_progress(0.645319);
+assert(apply_patch("/system/lib/modules/mt2266.ko", "-",
+       f7d45cd4024739bbbbe14a718fef5a533fb86214, 8384,
+       ddd785708a2f3b62e137936cc5c64c77c5358cf7, package_extract_file("patch/system/lib/modules/mt2266.ko.p")));
+set_progress(0.645418);
+assert(apply_patch("/system/lib/modules/mt312.ko", "-",
+       ded996b192e9e9ef5779dbbd21bdca48dcd6d22e, 11824,
+       b4a814948f98bf280175defc2ce8a9ef830bf8a0, package_extract_file("patch/system/lib/modules/mt312.ko.p")));
+set_progress(0.645557);
+assert(apply_patch("/system/lib/modules/mt352.ko", "-",
+       85b2ee0035d32f0ac0c0cf73e6f2dfef3ec84ce1, 9924,
+       46df8d635a56266f9f12ada36503d96d1e3f5b07, package_extract_file("patch/system/lib/modules/mt352.ko.p")));
+set_progress(0.645674);
+assert(apply_patch("/system/lib/modules/mvpkm.ko", "-",
+       bf088257c3aa83b98d3df4fcccb344604b373ec8, 78208,
+       e9a4f8941b13927a16e0afef3de7ed02891cba86, package_extract_file("patch/system/lib/modules/mvpkm.ko.p")));
+set_progress(0.646596);
+assert(apply_patch("/system/lib/modules/mxl5005s.ko", "-",
+       1cbf64bb32fe398291d2a7fe7ba8cb144a9c14e1, 35168,
+       369051d3d6c965c71a54838b423f0338d7046e99, package_extract_file("patch/system/lib/modules/mxl5005s.ko.p")));
+set_progress(0.647011);
+assert(apply_patch("/system/lib/modules/mxl5007t.ko", "-",
+       b88067074130909d8a93ae1a3cf2cdad139714d1, 13344,
+       b9e4a5152fbfd1885c8092f7b7e81425a063a74a, package_extract_file("patch/system/lib/modules/mxl5007t.ko.p")));
+set_progress(0.647168);
+assert(apply_patch("/system/lib/modules/nxt200x.ko", "-",
+       ceb3a75e0ae14f686fe425b583c7d8c65ebfb5c7, 17256,
+       b2c47c89ee95355de49f37a279f901f987a6c537, package_extract_file("patch/system/lib/modules/nxt200x.ko.p")));
+set_progress(0.647371);
+assert(apply_patch("/system/lib/modules/nxt6000.ko", "-",
+       fa8303e50c4e183f7029808cd11499d8cb1c077c, 10484,
+       850873908905bb113954c7936f2045d56782d53c, package_extract_file("patch/system/lib/modules/nxt6000.ko.p")));
+set_progress(0.647495);
+assert(apply_patch("/system/lib/modules/oektestkm.ko", "-",
+       34bbcc3c26f32477f834235ec104117f3c13e2fb, 8024,
+       9e9c55b5a06b19a7434d8b0386ff5b468cc71e55, package_extract_file("patch/system/lib/modules/oektestkm.ko.p")));
+set_progress(0.647589);
+assert(apply_patch("/system/lib/modules/or51132.ko", "-",
+       b7e718e5d9a596c315e83a357294bec81cac7690, 11960,
+       c2f16c20761c50bcbe908765db3d0d3408b4a2ef, package_extract_file("patch/system/lib/modules/or51132.ko.p")));
+set_progress(0.647730);
+assert(apply_patch("/system/lib/modules/or51211.ko", "-",
+       65bcbbe7b8a6e4b60088b5d052298016260bf792, 11912,
+       5c13528aa4799df814d5106b378164de33341288, package_extract_file("patch/system/lib/modules/or51211.ko.p")));
+set_progress(0.647871);
+assert(apply_patch("/system/lib/modules/pronto/pronto_wlan.ko", "-",
+       55e9e63ad8dbef1bd9af79ce47dd3ff36d46dd1b, 3673800,
+       5cc88be4ed48dd360bf324d29ff9c9a720f6d3b5, package_extract_file("patch/system/lib/modules/pronto/pronto_wlan.ko.p")));
+set_progress(0.691178);
+assert(apply_patch("/system/lib/modules/pvtcpkm.ko", "-",
+       ccb8df5b5a6b512140a95f734ad5968ca0f864cb, 60168,
+       d66d87caf8bec1d0a193a83849dc5f0d28f107ae, package_extract_file("patch/system/lib/modules/pvtcpkm.ko.p")));
+set_progress(0.691888);
+assert(apply_patch("/system/lib/modules/qcrypto.ko", "-",
+       f72e5ef139346b5d226efade9d35e6fff8dc527b, 64200,
+       b869f8ac874bf434d8c5bdffeb7c94457750da30, package_extract_file("patch/system/lib/modules/qcrypto.ko.p")));
+set_progress(0.692644);
+assert(apply_patch("/system/lib/modules/qt1010.ko", "-",
+       898dbdaadc6038d8617ec1c1ceead4c8161e0674, 8388,
+       a09c62c120cf69f2c83f0cc9d66edd181299ed4f, package_extract_file("patch/system/lib/modules/qt1010.ko.p")));
+set_progress(0.692743);
+assert(apply_patch("/system/lib/modules/radio-iris-transport.ko", "-",
+       860e02cbfade667169318ae55272f759a7f26a9c, 8936,
+       c86816575840a1ca3399dad525ecf62d901afa28, package_extract_file("patch/system/lib/modules/radio-iris-transport.ko.p")));
+set_progress(0.692849);
+assert(apply_patch("/system/lib/modules/reset_modem.ko", "-",
+       a37d89b2cedce4b2f5f77f29a5ed56f876c4a78e, 6040,
+       854308d7e5cfe8a4917b3787b314d76d67ff7969, package_extract_file("patch/system/lib/modules/reset_modem.ko.p")));
+set_progress(0.692920);
+assert(apply_patch("/system/lib/modules/rtl2830.ko", "-",
+       cbffcfb5ae8d919ac760d45f56cf5e2dd1b2a4ba, 11284,
+       4c551e5b288c5a704dddf284640b32006bbb91af, package_extract_file("patch/system/lib/modules/rtl2830.ko.p")));
+set_progress(0.693053);
+assert(apply_patch("/system/lib/modules/s5h1409.ko", "-",
+       097f73e548ddd68fdb429eb9bfa09216c497fca6, 13628,
+       127c5760c31299e96c99693f76ff01f90cff08d1, package_extract_file("patch/system/lib/modules/s5h1409.ko.p")));
+set_progress(0.693214);
+assert(apply_patch("/system/lib/modules/s5h1411.ko", "-",
+       7788216d7beaba8e6c05e6491c7310953b403913, 13192,
+       2a15a6195d49007ee4ccd0d4ed6fd7663e784292, package_extract_file("patch/system/lib/modules/s5h1411.ko.p")));
+set_progress(0.693369);
+assert(apply_patch("/system/lib/modules/s5h1420.ko", "-",
+       f65614562984e253eb2bcb9c910f23c1cc74c583, 16332,
+       61bc4a62e483e13b1ea87db2f187d2392ca0eda4, package_extract_file("patch/system/lib/modules/s5h1420.ko.p")));
+set_progress(0.693562);
+assert(apply_patch("/system/lib/modules/s5h1432.ko", "-",
+       f935f1c62bb85ec2afb5d82a4bfc329c24f71525, 7648,
+       fb9567c081ac0ebfac00be0eb3ad8c2fb853a37d, package_extract_file("patch/system/lib/modules/s5h1432.ko.p")));
+set_progress(0.693652);
+assert(apply_patch("/system/lib/modules/s921.ko", "-",
+       b3a91b7ce0e5bee37e2a7d2e32baff2f8b8fc839, 9912,
+       24e9472928900b30b3b0d90958af70ce662b14e4, package_extract_file("patch/system/lib/modules/s921.ko.p")));
+set_progress(0.693769);
+assert(apply_patch("/system/lib/modules/scsi_wait_scan.ko", "-",
+       9761091fbc02704abbe43d6c65c94fb2600466ec, 3236,
+       8360e031a940284a4bf2d40723ed44e7874f84af, package_extract_file("patch/system/lib/modules/scsi_wait_scan.ko.p")));
+set_progress(0.693807);
+assert(apply_patch("/system/lib/modules/si21xx.ko", "-",
+       2827ea504a884d26d3ac10c1c924220976147135, 13664,
+       678470b1ee13057d1a93573c7b8c6bee6ccf20cc, package_extract_file("patch/system/lib/modules/si21xx.ko.p")));
+set_progress(0.693968);
+assert(apply_patch("/system/lib/modules/sp8870.ko", "-",
+       5c33e9848544458e859a79eedd96b16ebcd03d1f, 10840,
+       e855e8eadc29d73774296a48ba5f2ffa1f6965b4, package_extract_file("patch/system/lib/modules/sp8870.ko.p")));
+set_progress(0.694096);
+assert(apply_patch("/system/lib/modules/sp887x.ko", "-",
+       219b6da3f9be50b043cded65ba6c1b03b397c4d3, 10800,
+       baacde8011fc10325a20e13139e8109468d945b5, package_extract_file("patch/system/lib/modules/sp887x.ko.p")));
+set_progress(0.694223);
+assert(apply_patch("/system/lib/modules/spidev.ko", "-",
+       d9fcefe1462131532eb53dca09057bab6f958c3e, 17772,
+       8949d3f24068434d40667a024ffb471f61988e10, package_extract_file("patch/system/lib/modules/spidev.ko.p")));
+set_progress(0.694432);
+assert(apply_patch("/system/lib/modules/stb0899.ko", "-",
+       2767b4935c2e79f56eac86c867bce79f5832d46a, 39004,
+       53b706404415d4079971030ec9c24d72ee476e77, package_extract_file("patch/system/lib/modules/stb0899.ko.p")));
+set_progress(0.694892);
+assert(apply_patch("/system/lib/modules/stb6000.ko", "-",
+       626eed8d8a63dc77f51d8b7c1501427020d3d598, 6848,
+       e5dd20eece0506983f7a49448f70569f7074346a, package_extract_file("patch/system/lib/modules/stb6000.ko.p")));
+set_progress(0.694973);
+assert(apply_patch("/system/lib/modules/stb6100.ko", "-",
+       8f2ffc7fecab745038cac4b616fe14619ea16333, 10416,
+       f2544e893ed12de0f8f67293ce6e2225796dc38e, package_extract_file("patch/system/lib/modules/stb6100.ko.p")));
+set_progress(0.695096);
+assert(apply_patch("/system/lib/modules/stv0288.ko", "-",
+       dcd33e59c77a7f5d9a2fe25a428c983135677758, 11496,
+       60d8a69e98696e8ab33d966a57811de5f390d911, package_extract_file("patch/system/lib/modules/stv0288.ko.p")));
+set_progress(0.695231);
+assert(apply_patch("/system/lib/modules/stv0297.ko", "-",
+       80222bac31653d49ba18194030beffeca16d67ec, 10108,
+       38578e36daa2c0ba1b6a38b6e1a03b50980d9e3c, package_extract_file("patch/system/lib/modules/stv0297.ko.p")));
+set_progress(0.695350);
+assert(apply_patch("/system/lib/modules/stv0299.ko", "-",
+       0808489e85255590035967d5d11c373d0666af53, 14568,
+       f5d162d41a5659ae4846ec8e1618031a8145e62c, package_extract_file("patch/system/lib/modules/stv0299.ko.p")));
+set_progress(0.695522);
+assert(apply_patch("/system/lib/modules/stv0367.ko", "-",
+       e34622ba95bf73ca3077d0f0ffdefbd811eceea9, 37480,
+       8cf52227c06b4c1e1ec2c51bc6ceaa5a31b4cfcf, package_extract_file("patch/system/lib/modules/stv0367.ko.p")));
+set_progress(0.695964);
+assert(apply_patch("/system/lib/modules/stv0900.ko", "-",
+       297fd105c6e74082d6d95ecb612564266a84bbd7, 61640,
+       ab0fc3cab96d26bb8aa67e1a2847e8d18553b93a, package_extract_file("patch/system/lib/modules/stv0900.ko.p")));
+set_progress(0.696691);
+assert(apply_patch("/system/lib/modules/stv090x.ko", "-",
+       e4625edb7b76482bd546e573a1a03de8396a3240, 54852,
+       b221e9ea4805f2eb70f621fa8f86570bf3568a5d, package_extract_file("patch/system/lib/modules/stv090x.ko.p")));
+set_progress(0.697337);
+assert(apply_patch("/system/lib/modules/stv6110.ko", "-",
+       f5c7553291cf53d5a79b8628537e5cdeff14c2b8, 8984,
+       d97b35f0557b639e24ba68b47aeadb8e004d731a, package_extract_file("patch/system/lib/modules/stv6110.ko.p")));
+set_progress(0.697443);
+assert(apply_patch("/system/lib/modules/stv6110x.ko", "-",
+       3f9902afb28866caabaabd18d06b9e8a834c5352, 9072,
+       004d5ee9972454af0241cb85f8e12ea51bce0d0a, package_extract_file("patch/system/lib/modules/stv6110x.ko.p")));
+set_progress(0.697550);
+assert(apply_patch("/system/lib/modules/tda10021.ko", "-",
+       5a3625c20e3ea89182a57a2c06b0a1281d67005d, 8980,
+       dbebc0d80697a9f4f176587dd2ef720c77e5a8af, package_extract_file("patch/system/lib/modules/tda10021.ko.p")));
+set_progress(0.697656);
+assert(apply_patch("/system/lib/modules/tda10023.ko", "-",
+       32a53dbb2d207aa4d4ba423313077918cc33ac58, 9372,
+       b4444c82a68cafbe819e467fa800525fbb8cce29, package_extract_file("patch/system/lib/modules/tda10023.ko.p")));
+set_progress(0.697766);
+assert(apply_patch("/system/lib/modules/tda10048.ko", "-",
+       9ad9386b4d2efc1df88a23bad23053ba23f3015a, 15728,
+       2526190c5cf69dfbddf1f4531b4b45f1f0813830, package_extract_file("patch/system/lib/modules/tda10048.ko.p")));
+set_progress(0.697952);
+assert(apply_patch("/system/lib/modules/tda1004x.ko", "-",
+       535672f6534000b80f874893a503d543a98b9ca9, 20868,
+       856cea74551c8129893988b25d57c8f7d081a593, package_extract_file("patch/system/lib/modules/tda1004x.ko.p")));
+set_progress(0.698198);
+assert(apply_patch("/system/lib/modules/tda10071.ko", "-",
+       3542df777e09b65d7be8dbd86d44cbbb89904590, 19196,
+       b1bcca28ae6a9df4e111fb03d952d5d073f34eeb, package_extract_file("patch/system/lib/modules/tda10071.ko.p")));
+set_progress(0.698424);
+assert(apply_patch("/system/lib/modules/tda10086.ko", "-",
+       b4fbed19e59e901e57302d16ad5a3d589083d4df, 13776,
+       10e46232efa3f2ad2ce5ae1ade29518af4ec619e, package_extract_file("patch/system/lib/modules/tda10086.ko.p")));
+set_progress(0.698586);
+assert(apply_patch("/system/lib/modules/tda18212.ko", "-",
+       5219636d7454b53f61db4a5be22cac604b7d705f, 7048,
+       f24e06855cce00b063789351e8cb68d920d4fc3a, package_extract_file("patch/system/lib/modules/tda18212.ko.p")));
+set_progress(0.698669);
+assert(apply_patch("/system/lib/modules/tda18218.ko", "-",
+       2d6634de8516c79d101cf9b1812058600e5e334a, 7996,
+       3e4b3adf15e84d9427377a0c226dcc244470b0e3, package_extract_file("patch/system/lib/modules/tda18218.ko.p")));
+set_progress(0.698764);
+assert(apply_patch("/system/lib/modules/tda18271.ko", "-",
+       ff7dc23db8758b7068acc69fda83c392c14b5c04, 45972,
+       121598282259ce322bcd3e2cf01a2db1a8ce921e, package_extract_file("patch/system/lib/modules/tda18271.ko.p")));
+set_progress(0.699306);
+assert(apply_patch("/system/lib/modules/tda18271c2dd.ko", "-",
+       e1a778e1d21063f05d995a1c2c84285a28044a1f, 19268,
+       0a96e6ed0b9161b8a7165875e7d0581cef4d64f2, package_extract_file("patch/system/lib/modules/tda18271c2dd.ko.p")));
+set_progress(0.699533);
+assert(apply_patch("/system/lib/modules/tda665x.ko", "-",
+       d11002bf2893040c66ca548bc427e6dcd2ccd295, 6364,
+       f12445a0a9885e1dae82e6b447be40969f73a1ec, package_extract_file("patch/system/lib/modules/tda665x.ko.p")));
+set_progress(0.699608);
+assert(apply_patch("/system/lib/modules/tda8083.ko", "-",
+       31abc6d66df346493b2a3faaedf82d5cf992b3e0, 8928,
+       5a4357cdf65cfe39239fe72b4b5e549e3098e9b6, package_extract_file("patch/system/lib/modules/tda8083.ko.p")));
+set_progress(0.699713);
+assert(apply_patch("/system/lib/modules/tda8261.ko", "-",
+       648c1c024f5a10655ab626a809f90c1fff43af4f, 6448,
+       1bf45472137783251a5ba19d586e35b39e549c7e, package_extract_file("patch/system/lib/modules/tda8261.ko.p")));
+set_progress(0.699789);
+assert(apply_patch("/system/lib/modules/tda826x.ko", "-",
+       e03315cb325b54eb35b360d293169e2709446fd2, 6356,
+       583f2e91008716d16b4f13b039b806ee6fa62dd0, package_extract_file("patch/system/lib/modules/tda826x.ko.p")));
+set_progress(0.699864);
+assert(apply_patch("/system/lib/modules/tda827x.ko", "-",
+       625ec41f87f12addc04449538ee0d62b37a2002c, 14936,
+       c59080c0d01edac455d9f57c35e48a7094071253, package_extract_file("patch/system/lib/modules/tda827x.ko.p")));
+set_progress(0.700040);
+assert(apply_patch("/system/lib/modules/tda8290.ko", "-",
+       1fc34619376cb4f6cd25dc94f2999a5ac789424c, 18060,
+       d7a2d06f446dc2978cae717be9d524c38b6a05a1, package_extract_file("patch/system/lib/modules/tda8290.ko.p")));
+set_progress(0.700253);
+assert(apply_patch("/system/lib/modules/tda9887.ko", "-",
+       6bfaf465c1f29217e663a537c59a9bdd9c880758, 14512,
+       50eb643e64df7a7dbe7ddc4b0ec72a28b648f081, package_extract_file("patch/system/lib/modules/tda9887.ko.p")));
+set_progress(0.700424);
+assert(apply_patch("/system/lib/modules/tea5761.ko", "-",
+       ad30e14ee84afe3211d6f181cdb02b725b72bbed, 8452,
+       b9c158dc3336a1abdd0afe9440e385cd3b132015, package_extract_file("patch/system/lib/modules/tea5761.ko.p")));
+set_progress(0.700524);
+assert(apply_patch("/system/lib/modules/tea5767.ko", "-",
+       d682984859c22cfc64e648fcaaddb979af2784ae, 9872,
+       d0477c35a45deb569f37485ca6f80351ea51b00a, package_extract_file("patch/system/lib/modules/tea5767.ko.p")));
+set_progress(0.700640);
+assert(apply_patch("/system/lib/modules/texfat.ko", "-",
+       24ef3dc7ad868e04435876ef1a8d863934603a2c, 254657,
+       ff785ca4e2d4d4a4a9a7c7f8964243b20b32717a, package_extract_file("patch/system/lib/modules/texfat.ko.p")));
+set_progress(0.703642);
+assert(apply_patch("/system/lib/modules/tspp.ko", "-",
+       dc1ea102a31a2ff4d3dc691b75c164931f91d8bd, 53252,
+       a7112768e730915da5f7ded652d720eea54dcd64, package_extract_file("patch/system/lib/modules/tspp.ko.p")));
+set_progress(0.704270);
+assert(apply_patch("/system/lib/modules/tua6100.ko", "-",
+       2e43352ec7fc0db4220b5200637f5a1dd983eac6, 5408,
+       c653f3a73403ebde6c78c60c66c02b96d4e5b9a0, package_extract_file("patch/system/lib/modules/tua6100.ko.p")));
+set_progress(0.704333);
+assert(apply_patch("/system/lib/modules/tuner-simple.ko", "-",
+       d52da94121613870f3097c1dfc7dda337c361657, 17860,
+       5abcc5d25a6c1a588b849ff4a90eccdf69d1a9b1, package_extract_file("patch/system/lib/modules/tuner-simple.ko.p")));
+set_progress(0.704544);
+assert(apply_patch("/system/lib/modules/tuner-types.ko", "-",
+       d5d73c331886d3ee1926577a6d990ebdf43556e3, 18852,
+       9402967302634a68f73818a318a37856c616104a, package_extract_file("patch/system/lib/modules/tuner-types.ko.p")));
+set_progress(0.704766);
+assert(apply_patch("/system/lib/modules/tuner-xc2028.ko", "-",
+       6c4fe5e05b439a93bf8593beefa89a73854fce37, 26540,
+       6bd0382aae2b102b52319ecedbf15f8eee50870f, package_extract_file("patch/system/lib/modules/tuner-xc2028.ko.p")));
+set_progress(0.705079);
+assert(apply_patch("/system/lib/modules/ves1820.ko", "-",
+       549c62e333f54c1274154d752d674e484d130d5f, 8996,
+       f864f909d3018c9bd910022431bbe68b5f0583cb, package_extract_file("patch/system/lib/modules/ves1820.ko.p")));
+set_progress(0.705185);
+assert(apply_patch("/system/lib/modules/ves1x93.ko", "-",
+       7966af8edd7894a1bbb466e439581b89747da575, 9060,
+       fbdef22ec7be4a3e66ea37593d171c321a5fe099, package_extract_file("patch/system/lib/modules/ves1x93.ko.p")));
+set_progress(0.705292);
+assert(apply_patch("/system/lib/modules/xc4000.ko", "-",
+       fa27a4bb5636d419333496b3d516c27655e2b394, 27216,
+       5d1d5042b72909f5f89bfa772a024e851dfb256f, package_extract_file("patch/system/lib/modules/xc4000.ko.p")));
+set_progress(0.705613);
+assert(apply_patch("/system/lib/modules/xc5000.ko", "-",
+       a353050766c19c3d9f60431cb5d94598da89f0a9, 19416,
+       6a156cd54e6febda459540778d94c28dda43dbc7, package_extract_file("patch/system/lib/modules/xc5000.ko.p")));
+set_progress(0.705842);
+assert(apply_patch("/system/lib/modules/zl10036.ko", "-",
+       f418b4c399b161e96ce96ae5d49880abf2c8ee04, 8576,
+       8a5b494926e8180d153f03402ea2c52af89dae07, package_extract_file("patch/system/lib/modules/zl10036.ko.p")));
+set_progress(0.705943);
+assert(apply_patch("/system/lib/modules/zl10039.ko", "-",
+       1cb1d7101de4d9899d99e5700bbba8f19cce36cf, 7808,
+       aa177ab5af021a011eed3532bd05761a9c9d938b, package_extract_file("patch/system/lib/modules/zl10039.ko.p")));
+set_progress(0.706035);
+assert(apply_patch("/system/lib/modules/zl10353.ko", "-",
+       dac07168efed4984b0e44e68cc38710e45b17237, 11172,
+       f9ad37ce5b8fc4efca5c5768e8aed96564620631, package_extract_file("patch/system/lib/modules/zl10353.ko.p")));
+set_progress(0.706167);
+assert(apply_patch("/system/priv-app/BackupRestoreConfirmation/BackupRestoreConfirmation.apk",
+       "-", 5bb66a315d09eed8de975c63785d552503d4d729, 148451,
+       fd3821d4a1869c94a5f78b8a79cb12d79e563b00, package_extract_file("patch/system/priv-app/BackupRestoreConfirmation/BackupRestoreConfirmation.apk.p")));
+set_progress(0.707916);
+assert(apply_patch("/system/priv-app/CalendarProvider/CalendarProvider.apk",
+       "-", 7b0e0c0a2af0b014e307b206a2a7706ec1bc0b7b, 246609,
+       876c722a7211b592eee3a0d9b8a75a1a3dfc4ae8, package_extract_file("patch/system/priv-app/CalendarProvider/CalendarProvider.apk.p")));
+set_progress(0.710824);
+assert(apply_patch("/system/priv-app/CellBroadcastReceiver/CellBroadcastReceiver.apk",
+       "-", d470c6edf87b5586e7e4cbf5bb5c9b87b0725e49, 432449,
+       429430e8b6611824b028b5ffc539ec0f22d339b3, package_extract_file("patch/system/priv-app/CellBroadcastReceiver/CellBroadcastReceiver.apk.p")));
+set_progress(0.715921);
+assert(apply_patch("/system/priv-app/ContactsProvider/ContactsProvider.apk",
+       "-", 5f30339f87731805746503e01fc00fe290ed4da9, 418819,
+       446065f1ff81143be79faba40dbf1d0d483724df, package_extract_file("patch/system/priv-app/ContactsProvider/ContactsProvider.apk.p")));
+set_progress(0.720858);
+assert(apply_patch("/system/priv-app/DefaultContainerService/DefaultContainerService.apk",
+       "-", 0c0c057ed840b2da199c0bd85603532f3f62deab, 16661,
+       0ae579e4d3a540df2521134435a2398abe9bd07f, package_extract_file("patch/system/priv-app/DefaultContainerService/DefaultContainerService.apk.p")));
+set_progress(0.721055);
+assert(apply_patch("/system/priv-app/DownloadProvider/DownloadProvider.apk",
+       "-", b11320305d7b05afebd53877e12c2b911e10deca, 400323,
+       4679fad407397d86092ec74a7b317ff1382d0535, package_extract_file("patch/system/priv-app/DownloadProvider/DownloadProvider.apk.p")));
+set_progress(0.725774);
+assert(apply_patch("/system/priv-app/ExternalStorageProvider/ExternalStorageProvider.apk",
+       "-", 6734b77f91c944545f63c3f158d3c9d35c521c6b, 27767,
+       b25d68220bc1be185a868bede191c9ef290646fe, package_extract_file("patch/system/priv-app/ExternalStorageProvider/ExternalStorageProvider.apk.p")));
+set_progress(0.726101);
+assert(apply_patch("/system/priv-app/FusedLocation/FusedLocation.apk",
+       "-", b96f98e10382fc7f9c28199ac420a12e9252ea1d, 15259,
+       dc416ce7555b88f8d9dc033bbc2344e3ddec79b5, package_extract_file("patch/system/priv-app/FusedLocation/FusedLocation.apk.p")));
+set_progress(0.726281);
+assert(apply_patch("/system/priv-app/GSD/GSD.apk", "-",
+       17f3806fe8f8d0a155c9cb573fdd1d4efd6ec381, 526217,
+       1fa2d36435258c732da0baa834a60f96dbe307a2, package_extract_file("patch/system/priv-app/GSD/GSD.apk.p")));
+set_progress(0.732484);
+assert(apply_patch("/system/priv-app/InputDevices/InputDevices.apk", "-",
+       4285c6d9072fbd32bf2f18a3fface24361033f1c, 160139,
+       73bca4a1555cca82372a5f4b90967ddb82cb1347, package_extract_file("patch/system/priv-app/InputDevices/InputDevices.apk.p")));
+set_progress(0.734372);
+assert(apply_patch("/system/priv-app/ManagedProvisioning/ManagedProvisioning.apk",
+       "-", cb15c34425d8dbdac06fa1ac0653721efbcfd6a9, 810981,
+       1d9b5c09ab0a7372d2a895353f01bcbb27360b91, package_extract_file("patch/system/priv-app/ManagedProvisioning/ManagedProvisioning.apk.p")));
+set_progress(0.743932);
+assert(apply_patch("/system/priv-app/MediaProvider/MediaProvider.apk",
+       "-", bba5de71b14ad2ac52ee4fdefd5cfb5c0540dcba, 130476,
+       7256fb149a0bbeb73194cfcacaac6163340238e9, package_extract_file("patch/system/priv-app/MediaProvider/MediaProvider.apk.p")));
+set_progress(0.745470);
+assert(apply_patch("/system/priv-app/MmsService/MmsService.apk", "-",
+       310590b60c64078804aca14bb694db3d67728619, 135182,
+       124a2ceca2b0550fe6126e17c2bc0c7c98331644, package_extract_file("patch/system/priv-app/MmsService/MmsService.apk.p")));
+set_progress(0.747064);
+assert(apply_patch("/system/priv-app/MusicFX/MusicFX.apk", "-",
+       0f65ee4184951656038dd382e8f206fc9b42b20d, 101693,
+       e5c709454bd424869a8981362395d812cb77283e, package_extract_file("patch/system/priv-app/MusicFX/MusicFX.apk.p")));
+set_progress(0.748263);
+assert(apply_patch("/system/priv-app/ProxyHandler/ProxyHandler.apk", "-",
+       5847c6e504b27b000e63cfcc9d9486f75005f93b, 8474,
+       d49403b297fef18e5a181e17c96866b7a6225cf8, package_extract_file("patch/system/priv-app/ProxyHandler/ProxyHandler.apk.p")));
+set_progress(0.748362);
+assert(apply_patch("/system/priv-app/Settings/Settings.apk", "-",
+       38cf0bdd0a6a944510fe46f19df0ae337a56e9c1, 13665113,
+       cc5477dc6d779affe4ab3b4e07ae2be67ff243e2, package_extract_file("patch/system/priv-app/Settings/Settings.apk.p")));
+set_progress(0.909450);
+assert(apply_patch("/system/priv-app/SettingsProvider/SettingsProvider.apk",
+       "-", ca178e507cf5f0186a799a44f1d5b6f3879bf30a, 136669,
+       d869435082f644df686c9d3bfabec53abbb5ad6e, package_extract_file("patch/system/priv-app/SettingsProvider/SettingsProvider.apk.p")));
+set_progress(0.911061);
+assert(apply_patch("/system/priv-app/SharedStorageBackup/SharedStorageBackup.apk",
+       "-", c8653d2555b15b4c85915775f61dcdf0fbfedda5, 6920,
+       0f10842c48e046b47d13c8807e64c5db4f07a418, package_extract_file("patch/system/priv-app/SharedStorageBackup/SharedStorageBackup.apk.p")));
+set_progress(0.911142);
+assert(apply_patch("/system/priv-app/Shell/Shell.apk", "-",
+       4e4b83a2b4847cf6767d7122911886a05d509647, 158656,
+       4148a815afd0f429fe47ac765b0e131c68656bba, package_extract_file("patch/system/priv-app/Shell/Shell.apk.p")));
+set_progress(0.913013);
+assert(apply_patch("/system/priv-app/SystemUI/SystemUI.apk", "-",
+       637b8f9bd0f80b5b351d594914b6d5cdfe29f49c, 4069131,
+       c032b3cf7bd94a7f8b20d44f17789c11423ac36f, package_extract_file("patch/system/priv-app/SystemUI/SystemUI.apk.p")));
+set_progress(0.960980);
+assert(apply_patch("/system/priv-app/TeleService/TeleService.apk", "-",
+       5fa300fb38b64a844e74fc7d0b5bd35c6c387213, 2659431,
+       9f271f721071b02f766c2a32ab106723f856e438, package_extract_file("patch/system/priv-app/TeleService/TeleService.apk.p")));
+set_progress(0.992330);
+assert(apply_patch("/system/priv-app/Telecom/Telecom.apk", "-",
+       a1e42b5e3fc6df06e4a64a3726cd46d2fe5e9359, 240035,
+       493f3ea1802c07bb1d72ad1d87b8ed99372f97b1, package_extract_file("patch/system/priv-app/Telecom/Telecom.apk.p")));
+set_progress(0.995160);
+assert(apply_patch("/system/priv-app/TelephonyProvider/TelephonyProvider.apk",
+       "-", 1d252e420e950c970a2f7d24a209517a08e9f116, 162027,
+       7b70b2505d4f55cb468818266b2e91a53e7c71a8, package_extract_file("patch/system/priv-app/TelephonyProvider/TelephonyProvider.apk.p")));
+set_progress(0.997070);
+assert(apply_patch("/system/priv-app/VpnDialogs/VpnDialogs.apk", "-",
+       cf25ee986d3795b9297ce758e0540f888fcb81c1, 56352,
+       f994f7cc980ed92afca28295abd1a591e91a841c, package_extract_file("patch/system/priv-app/VpnDialogs/VpnDialogs.apk.p")));
+set_progress(0.997734);
+assert(apply_patch("/system/priv-app/WallpaperCropper/WallpaperCropper.apk",
+       "-", 12d4bc1b9595ff9cfe87ff26364712882f773349, 183410,
+       e897b425d777187f7fc208fa92204612ada40c92, package_extract_file("patch/system/priv-app/WallpaperCropper/WallpaperCropper.apk.p")));
+set_progress(0.999896);
+show_progress(0.100000, 10);
+ui_print("Unpacking new system files...");
+assert(package_extract_dir("system", "/system"));
+ui_print("Symlinks and permissions...");
+set_metadata("/system/bin/ATFWD-daemon", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:atfwd_exec:s0");
+set_metadata("/system/bin/PktRspTest", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:diag_exec:s0");
+set_metadata("/system/bin/adsprpcd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:adsprpcd_exec:s0");
+set_metadata("/system/bin/app_process32", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:zygote_exec:s0");
+set_metadata("/system/bin/audiod", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:audiod_exec:s0");
+set_metadata("/system/bin/bma150_usr", "uid", 0, "gid", 1000, "mode", 0750, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/bin/bootanimation", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:bootanim_exec:s0");
+set_metadata("/system/bin/charger_monitor", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:charger_monitor_exec:s0");
+set_metadata("/system/bin/cir_fw_update", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:cir_fw_update_exec:s0");
+set_metadata("/system/bin/clatd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:clatd_exec:s0");
+set_metadata("/system/bin/debuggerd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:debuggerd_exec:s0");
+set_metadata("/system/bin/dex2oat", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:dex2oat_exec:s0");
+set_metadata("/system/bin/dhcpcd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:dhcp_exec:s0");
+set_metadata("/system/bin/diag_callback_client", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:diag_exec:s0");
+set_metadata("/system/bin/diag_dci_sample", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:diag_exec:s0");
+set_metadata("/system/bin/diag_klog", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:diag_exec:s0");
+set_metadata("/system/bin/diag_mdlog", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:qlogd_exec:s0");
+set_metadata("/system/bin/diag_socket_log", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:diag_exec:s0");
+set_metadata("/system/bin/diag_uart_log", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:diag_exec:s0");
+set_metadata("/system/bin/dnsmasq", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:dnsmasq_exec:s0");
+set_metadata("/system/bin/drmdiagapp", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:diag_exec:s0");
+set_metadata("/system/bin/drmserver", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:drmserver_exec:s0");
+set_metadata("/system/bin/dumpstate", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:dumpstate_exec:s0");
+set_metadata("/system/bin/hcheck", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:hcheck_exec:s0");
+set_metadata("/system/bin/hld", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:hld_exec:s0");
+set_metadata("/system/bin/hostapd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:hostapd_exec:s0");
+set_metadata("/system/bin/hostapd_cli", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:hostapd_exec:s0");
+set_metadata("/system/bin/hvdcp", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:hvdcp_exec:s0");
+set_metadata("/system/bin/imscmservice", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:imscm_exec:s0");
+set_metadata("/system/bin/installd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:installd_exec:s0");
+set_metadata("/system/bin/irsc_util", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:irsc_util_exec:s0");
+set_metadata("/system/bin/keystore", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:keystore_exec:s0");
+set_metadata("/system/bin/lmkd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:lmkd_exec:s0");
+set_metadata("/system/bin/logd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:logd_exec:s0");
+set_metadata("/system/bin/mdnsd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:mdnsd_exec:s0");
+set_metadata("/system/bin/mediaserver", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:mediaserver_exec:s0");
+set_metadata("/system/bin/mm-qcamera-daemon", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:mm-qcamerad_exec:s0");
+set_metadata("/system/bin/mpdecision", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:mpdecision_exec:s0");
+set_metadata("/system/bin/mtpd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:mtp_exec:s0");
+set_metadata("/system/bin/netcfg", "uid", 0, "gid", 3003, "mode", 02750, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/bin/netd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:netd_exec:s0");
+set_metadata("/system/bin/netmgrd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:netmgrd_exec:s0");
+set_metadata("/system/bin/patchoat", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:dex2oat_exec:s0");
+set_metadata("/system/bin/ping", "uid", 0, "gid", 0, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/bin/pnpmgr", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:pnpmgr_exec:s0");
+set_metadata("/system/bin/pppd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:ppp_exec:s0");
+set_metadata("/system/bin/qmuxd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:qmuxd_exec:s0");
+set_metadata("/system/bin/qseecomd", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:tee_exec:s0");
+set_metadata("/system/bin/racoon", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:racoon_exec:s0");
+set_metadata("/system/bin/rild", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:rild_exec:s0");
+set_metadata("/system/bin/rmt_storage", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:rmt_storage_exec:s0");
+set_metadata("/system/bin/run-as", "uid", 0, "gid", 2000, "mode", 0750, "capabilities", 0xc0, "selabel", "u:object_r:runas_exec:s0");
+set_metadata("/system/bin/sdcard", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:sdcardd_exec:s0");
+set_metadata("/system/bin/servicemanager", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:servicemanager_exec:s0");
+set_metadata("/system/bin/sh", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:shell_exec:s0");
+set_metadata("/system/bin/ssr_setup", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:ssr_setup_exec:s0");
+set_metadata("/system/bin/surfaceflinger", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:surfaceflinger_exec:s0");
+set_metadata("/system/bin/test_diag", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:diag_exec:s0");
+set_metadata("/system/bin/thermal-engine", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:thermal-engine_exec:s0");
+set_metadata("/system/bin/time_daemon", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:time_daemon_exec:s0");
+set_metadata("/system/bin/uncrypt", "uid", 0, "gid", 0, "mode", 0750, "capabilities", 0x0, "selabel", "u:object_r:uncrypt_exec:s0");
+set_metadata("/system/bin/vdc", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:vdc_exec:s0");
+set_metadata("/system/bin/vold", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:vold_exec:s0");
+set_metadata("/system/bin/wcnss_service", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:wcnss_service_exec:s0");
+set_metadata("/system/bin/wpa_cli", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:wcnss_service_exec:s0");
+set_metadata("/system/bin/wpa_supplicant", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:wpa_exec:s0");
+set_metadata("/system/etc/dhcpcd/dhcpcd-run-hooks", "uid", 1014, "gid", 2000, "mode", 0550, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/vendor", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/vendor/firmware", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/vendor/lib", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/vendor/lib/drm/libdrmwvmplugin.so", "uid", 0, "gid", 0, "mode", 0644, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/vendor/lib/egl", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/vendor/lib/hw/power.qcom.so", "uid", 0, "gid", 0, "mode", 0644, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/vendor/lib/mediadrm", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/vendor/lib/qcdrm/playready/lib", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/vendor/lib/rfsa", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/vendor/lib/rfsa/adsp", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/vendor/lib/soundfx", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+set_metadata("/system/vendor/media", "uid", 0, "gid", 2000, "mode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
+ui_print("Patching remaining system files...");
+assert(apply_patch("/system/build.prop", "-",
+       40be5552efea2b3f425f21b2cb6835abc91b9b5c, 8980,
+       5d19fd80aedc1e6ca7a490d4d62dc5492112723f, package_extract_file("patch/system/build.prop.p")));
+
+ui_print("Reenabling CDMA mode...");
+run_program("/system/xbin/sed", "-i", "s/^ro.telephony.default_network=.*/ro.telephony.default_network=10/; s/^#telephony.lteOnCdmaDevice/telephony.lteOnCdmaDevice/", "/system/build.prop");
+
+set_metadata("/system/build.prop", "uid", 0, "gid", 0, "mode", 0644, "capabilities", 0x0);
+
+ui_print("Writing boot.img...");
+package_extract_file("boot.img", "/dev/block/platform/msm_sdcc.1/by-name/boot");
+
+ui_print("Copying fotaBoot to /data/system for customize reload...");
+package_extract_file("fotaBoot", "/data/system/fotaBoot");
+unmount("/system");

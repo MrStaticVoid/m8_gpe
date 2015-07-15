@@ -1,0 +1,32 @@
+Generally, to make the Google-supplied OTA updater-script work in TWRP,
+do the following:
+
+1. Change all 'getprop' instances to probe the /system/build.prop file:
+
+    perl -pi -e 's@(?<!file_)getprop\(@file_getprop("/system/build.prop", @g' updater-script
+
+2. Remove references to mounting and unmounting /data.  This isn't
+   strictly necessary, but TWRP already mounts this partition and it
+   prevents a harmless error message from being displayed.
+
+3. Reset build.prop to default before update:
+
+    ui_print("Disabling CDMA mode for update...");
+    run_program("/system/xbin/sed", "-i", "s/^ro.telephony.default_network=.*/ro.telephony.default_network=9/; s/^telephony.lteOnCdmaDevice/#telephony.lteOnCdmaDevice/", "/system/build.prop");
+
+   And reenable CDMA after update:
+
+    ui_print("Reenabling CDMA mode...");
+    run_program("/system/xbin/sed", "-i", "s/^ro.telephony.default_network=.*/ro.telephony.default_network=10/; s/^#telephony.lteOnCdmaDevice/telephony.lteOnCdmaDevice/", "/system/build.prop");
+
+4. Change firmware installation from:
+
+    write_firmware_image("PACKAGE:firmware.zip", "zip");
+    mount("ext4", "EMMC", "/dev/block/platform/msm_sdcc.1/by-name/userdata", "/data", "max_batch_time=0,commit=1,data=ordered,barrier=1,errors=panic,nodelalloc");
+
+   to:
+
+    ui_print("Writing boot.img...");
+    package_extract_file("boot.img", "/dev/block/platform/msm_sdcc.1/by-name/boot");
+
+5. Remove all 'set_metadata_recursive' lines.

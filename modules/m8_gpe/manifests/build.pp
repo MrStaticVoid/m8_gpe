@@ -1,6 +1,6 @@
-class m8_gpe::build {
-    $dir = "${m8_gpe::target}/build"
-
+class m8_gpe::build (
+    $dir,
+) {
     m8_gpe::source { 'cm':
         source => 'https://thestaticvoid.com/dist/m8_gpe/sources/cm-11-20141008-SNAPSHOT-M11-m8.zip',
         type   => zip,
@@ -21,7 +21,6 @@ class m8_gpe::build {
         type   => tar,
     }
 
-    class { 'm8_gpe::boot': }
     class { 'm8_gpe::sqlite': }
 
     file { [
@@ -46,14 +45,8 @@ class m8_gpe::build {
         source => 'puppet:///modules/m8_gpe/updater-script',
     }
 
-    file { "${dir}/boot.img":
-        source  => $m8_gpe::boot::img,
-        require => Class['m8_gpe::boot'],
-    }
-
     file { "${dir}/system.img":
         source  => $m8_gpe::ruu::system_img,
-        require => Class['m8_gpe::ruu'],
     }
 
     file { "${dir}/tools/resize2fs":

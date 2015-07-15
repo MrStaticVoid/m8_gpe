@@ -2,24 +2,18 @@ class m8_gpe (
     $target,
 ) {
     $sources_dir = "${target}/sources"
-    $zip = "${target}/m8_gpe.zip"
 
     file { $sources_dir:
         ensure => directory,
     }
 
-    class { 'm8_gpe::build': }
+    class { 'm8_gpe::ruu': }
 
-    exec { 'remove-old-zip':
-        command     => "/bin/rm -f ${zip}",
-        refreshonly => true,
-        subscribe   => Class['m8_gpe::build'],
+    m8_gpe::ota { 'LMY47O.H5':
+        source => 'http://android.clients.google.com/packages/ota/gpedogfood_htc_m8_generic/4eaf26db2c018451a068638bd01c6854a0eef0f1.OTA_M8_UL_L51_STOCK_UI_MR_Google_WWE_4.04.1700.5-4.04.1700.4_release_429773.zip',
     }
 
-    exec { 'zip':
-        command => "/usr/bin/zip -r ${zip} .",
-        cwd     => $m8_gpe::build::dir,
-        creates => $zip,
-        require => Exec['remove-old-zip'],
+    m8_gpe::ota { 'LMY47O.H6':
+        source => 'http://android.clients.google.com/packages/ota/gpedogfood_htc_m8_generic/47d86b52e0571cd645216fbbe7d7e404ecd4c3da.OTA_M8_UL_L51_STOCK_UI_MR_Google_WWE_4.04.1700.6-4.04.1700.5_release_430317.zip',
     }
 }
