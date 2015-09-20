@@ -16,4 +16,8 @@ class m8_gpe (
     m8_gpe::ota { 'LMY47O.H6':
         source => 'http://android.clients.google.com/packages/ota/gpedogfood_htc_m8_generic/47d86b52e0571cd645216fbbe7d7e404ecd4c3da.OTA_M8_UL_L51_STOCK_UI_MR_Google_WWE_4.04.1700.6-4.04.1700.5_release_430317.zip',
     }
+
+    m8_gpe::ota { 'LMY47O.H9':
+        source => 'http://android.clients.google.com/packages/ota/gpedogfood_htc_m8_generic/da03535cf104cb56194dd040661bd98b77764fca.OTA_M8_UL_L51_STOCK_UI_MR_Google_WWE_4.04.1700.9-4.04.1700.6_release_449381.zip',
+    }
 }
